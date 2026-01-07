@@ -1,0 +1,55 @@
+services:
+  # Shard 1: Users A-M
+  postgres-shard1:
+    image: postgres:15-alpine
+    container_name: postgres-shard1
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: shard1_db
+    ports:
+      - "5441:5432"
+    volumes:
+      - shard1-data:/var/lib/postgresql/data
+    networks:
+      - shard-network
+
+  # Shard 2: Users N-Z
+  postgres-shard2:
+    image: postgres:15-alpine
+    container_name: postgres-shard2
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: shard2_db
+    ports:
+      - "5442:5432"
+    volumes:
+      - shard2-data:/var/lib/postgresql/data
+    networks:
+      - shard-network
+
+  # Shard 3: Additional capacity
+  postgres-shard3:
+    image: postgres:15-alpine
+    container_name: postgres-shard3
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: shard3_db
+    ports:
+      - "5443:5432"
+    volumes:
+      - shard3-data:/var/lib/postgresql/data
+    networks:
+      - shard-network
+
+volumes:
+  shard1-data:
+  shard2-data:
+  shard3-data:
+
+networks:
+  shard-network:
+    driver: bridge
+

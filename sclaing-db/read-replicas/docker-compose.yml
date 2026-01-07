@@ -1,0 +1,38 @@
+services:
+  # Primary Database
+  postgres-primary:
+    image: postgres:15-alpine
+    container_name: postgres-primary
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: scalingdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - primary-data:/var/lib/postgresql/data
+    networks:
+      - db-network
+
+  # Read Replica (just another postgres instance for simplicity)
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: postgres-replica
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: scalingdb
+    ports:
+      - "5433:5432"
+    volumes:
+      - replica-data:/var/lib/postgresql/data
+    networks:
+      - db-network
+
+volumes:
+  primary-data:
+  replica-data:
+
+networks:
+  db-network:
+    driver: bridge

@@ -1,0 +1,20 @@
+{
+  "name": "sharding-demo",
+  "version": "1.0.0",
+  "description": "PostgreSQL Sharding Demo",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "setup": "node setup.js",
+    "populate": "node populate-data.js",
+    "demo": "node demo.js",
+    "query": "node query-examples.js"
+  },
+  "keywords": ["postgresql", "sharding", "database"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "pg": "^8.11.3"
+  }
+}
+
