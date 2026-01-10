@@ -1,0 +1,22 @@
+{
+  "name": "kafka-message-streams-exercise",
+  "version": "1.0.0",
+  "description": "Simple Kafka exercise demonstrating message streams with producers and consumers",
+  "main": "index.js",
+  "scripts": {
+    "producer": "ts-node src/producer.ts",
+    "search-consumer": "ts-node src/search-consumer.ts",
+    "counter-consumer": "ts-node src/counter-consumer.ts"
+  },
+  "keywords": ["kafka", "message-streams", "typescript"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafkajs": "^2.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
