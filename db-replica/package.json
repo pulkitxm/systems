@@ -1,0 +1,12 @@
+{
+  "name": "db-replica-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "demo": "node demo.js",
+    "failover": "node failover-demo.js"
+  },
+  "dependencies": {
+    "pg": "^8.13.1"
+  }
+}

@@ -1,0 +1,64 @@
+services:
+  primary:
+    image: postgres:16
+    container_name: pg_primary
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: testdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./primary-init:/docker-entrypoint-initdb.d
+      - primary_data:/var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - wal_level=replica
+      - -c
+      - max_wal_senders=3
+      - -c
+      - wal_keep_size=1GB
+      - -c
+      - hot_standby=on
+      - -c
+      - hba_file=/var/lib/postgresql/data/pg_hba.conf
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  replica:
+    image: postgres:16
+    container_name: pg_replica
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGUSER: postgres
+      PGPASSWORD: replicator_password
+    ports:
+      - "5433:5432"
+    depends_on:
+      primary:
+        condition: service_healthy
+    volumes:
+      - replica_data:/var/lib/postgresql/data
+    entrypoint:
+      - bash
+      - -c
+      - |
+        if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
+          echo "Initializing replica from primary..."
+          until PGPASSWORD=replicator_password pg_basebackup -h primary -D /var/lib/postgresql/data -U replicator -Fp -Xs -P -R
+          do
+            echo "Waiting for primary to be ready..."
+            sleep 2
+          done
+          echo "Replica initialized successfully"
+        fi
+        exec docker-entrypoint.sh postgres
+
+volumes:
+  primary_data:
+  replica_data:
