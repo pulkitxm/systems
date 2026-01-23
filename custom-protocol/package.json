@@ -1,0 +1,30 @@
+{
+  "name": "custom-protocol-demo",
+  "version": "1.0.0",
+  "description": "Custom TCP protocol demonstration - building a key-value store protocol",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "server": "npm run build && node dist/server.js",
+    "client": "npm run build && node dist/client.js",
+    "demo": "npm run build && node dist/demo.js",
+    "dev:server": "ts-node src/server.ts",
+    "dev:client": "ts-node src/client.ts",
+    "dev:demo": "ts-node src/demo.ts"
+  },
+  "keywords": [
+    "tcp",
+    "protocol",
+    "custom-protocol",
+    "networking",
+    "key-value-store",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
