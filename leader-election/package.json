@@ -1,0 +1,9 @@
+{
+  "name": "leader-election-demo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "demo": "node demo.js",
+    "bully": "node bully-algorithm.js"
+  }
+}
