@@ -1,0 +1,16 @@
+{
+  "name": "consistent-hashing-demo",
+  "version": "1.0.0",
+  "description": "Consistent Hashing implementation and demo in TypeScript",
+  "type": "module",
+  "scripts": {
+    "demo": "npx tsx src/demo.ts",
+    "scale": "npx tsx src/scale-demo.ts",
+    "virtual-nodes": "npx tsx src/virtual-nodes-demo.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
