@@ -1,0 +1,19 @@
+{
+  "name": "bloom-filter-demo",
+  "version": "1.0.0",
+  "description": "Bloom Filter implementation and demo in TypeScript",
+  "type": "module",
+  "scripts": {
+    "demo": "npx tsx src/demo.ts",
+    "false-positive": "npx tsx src/false-positive-demo.ts",
+    "redis": "npx tsx src/redis-demo.ts"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
