@@ -1,0 +1,24 @@
+{
+  "name": "cron-jobs-with-bullmq",
+  "version": "1.0.0",
+  "description": "Cron jobs with BullMQ and Redis: repeatable jobs, workers, graceful shutdown, and schedule reconciliation",
+  "main": "index.js",
+  "scripts": {
+    "worker": "ts-node src/worker.ts",
+    "add-schedule": "ts-node src/add-schedule.ts",
+    "list-schedules": "ts-node src/list-schedules.ts",
+    "remove-schedule": "ts-node src/remove-schedule.ts",
+    "sync-schedules": "ts-node src/sync-schedules.ts"
+  },
+  "keywords": ["bullmq", "cron", "redis", "typescript", "job-scheduling"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bullmq": "^5.34.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
