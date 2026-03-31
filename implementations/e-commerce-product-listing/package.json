@@ -1,0 +1,14 @@
+{
+  "name": "e-commerce-product-listing",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "init-db": "node src/init-db.js",
+    "seed": "node src/seed.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.0"
+  }
+}
