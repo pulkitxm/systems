@@ -356,3 +356,7 @@ Leader election is used in many production systems:
 3. **Implement Ring algorithm**: Compare with Bully
 4. **Add split-brain detection**: What if network partitions?
 5. **Visualize elections**: Build a UI to watch elections happen
+
+## Related
+
+- Blog post: [High Availability](https://pulkitxm.com/series/system-design/high-availability) (replication, failover, leader election)

@@ -119,3 +119,7 @@ Expected: ~25% (k/n where n=4 nodes)
 - Adding a node: only ~k/n keys move (minimal disruption)
 - Removing a node: only that node's keys move
 - Virtual nodes ensure even distribution
+
+## Related
+
+- Blog post: [Consistent Hashing](https://pulkitxm.com/series/system-design/consistent-hashing)

@@ -464,4 +464,4 @@ docker-compose down -v
 
 ## Related
 
-- Blog post: [Rate Limiting](https://pulkitxm.com/blogs/system-design/rate-limiting)
+- Blog post: [Rate Limiting](https://pulkitxm.com/series/system-design/rate-limiting)

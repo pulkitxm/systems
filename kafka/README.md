@@ -172,3 +172,7 @@ docker-compose down -v
 3. **Scalability**: Add more partitions → more parallel consumers
 4. **Reliability**: Messages persist, consumers can fail and recover
 5. **Flexibility**: Add new consumer groups anytime without affecting existing ones
+
+## Related
+
+- Blog post: [Async Processing with Message Queues, Streams, and Pub/Sub](https://pulkitxm.com/series/system-design/async-processing)

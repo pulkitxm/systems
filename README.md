@@ -483,7 +483,7 @@ Things that informed this repo, roughly in order of "how much they shaped my thi
 - **Kafka: The Definitive Guide** — for going deeper than the `kafka/` module.
 - **Redis in Action** and the Redis command docs — especially the sections on Lua scripting and keyspace design.
 
-Module-specific references are linked from inside each module's README.
+Companion write-ups for many demos live on the blog: [System Design](https://pulkitxm.com/series/system-design). Each module README links to its closest post where one exists.
 
 ---
 

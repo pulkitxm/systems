@@ -65,3 +65,6 @@ docker exec -it transactions_db psql -U admin -d transactions_db
 docker-compose down -v
 ```
 
+## Related
+
+- Blog post: [Database Transaction Internals](https://pulkitxm.com/series/system-design/db-transaction-internals)

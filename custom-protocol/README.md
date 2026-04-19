@@ -215,3 +215,7 @@ Try extending the protocol:
 - Add `INCR`/`DECR` for atomic counters
 - Add bulk operations like `MGET` and `MSET`
 - Implement pipelining (multiple commands in one TCP packet)
+
+## Related
+
+- Blog post: [Communication Protocols](https://pulkitxm.com/series/system-design/communication-protocols)

@@ -729,4 +729,4 @@ Replica 1 streams from primary, Replicas 2 & 3 stream from Replica 1.
 - [PostgreSQL Replication Documentation](https://www.postgresql.org/docs/current/high-availability.html)
 - [Understanding WAL](https://www.postgresql.org/docs/current/wal-intro.html)
 - [Monitoring Replication](https://www.postgresql.org/docs/current/monitoring-stats.html#MONITORING-PG-STAT-REPLICATION-VIEW)
-- Blog post: [Fault Tolerance: Redundancy and Automatic Failover](https://pulkitxm.com/blogs/system-design/fault-tolerance)
+- Blog post: [High Availability](https://pulkitxm.com/series/system-design/high-availability)

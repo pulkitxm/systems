@@ -91,3 +91,7 @@ KEY TAKEAWAY:
 - When Bloom filter says NO → 100% certain item is NOT in set
 - When Bloom filter says YES → item MIGHT be in set (could be false positive)
 ```
+
+## Related
+
+- Blog post: [Bloom Filters](https://pulkitxm.com/series/system-design/bloom-filters)

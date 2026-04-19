@@ -128,3 +128,8 @@ Watch server logs — each query is tagged `[MASTER :5432]` or `[REPLICA:5433]` 
 ```bash
 docker compose down -v
 ```
+
+## Related
+
+- Blog post: [Understanding Database Scaling and Sharding Patterns](https://pulkitxm.com/series/system-design/understanding-database-scaling-sharding)
+- Blog post: [High Availability](https://pulkitxm.com/series/system-design/high-availability) (read replicas, replication)

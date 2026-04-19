@@ -168,3 +168,7 @@ docker-compose down -v
 3. **Idempotent registration**: Safe to call `queue.add()` with the same repeat options on every deploy
 4. **Jobs don't pile up**: If workers are down, only the next occurrence waits — no backlog of missed runs
 5. **Reconciliation matters**: Always have a script to sync your database (source of truth) with Redis (runtime state)
+
+## Related
+
+- Blog post: [Async Processing with Message Queues, Streams, and Pub/Sub](https://pulkitxm.com/series/system-design/async-processing)
