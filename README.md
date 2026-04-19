@@ -1,6 +1,6 @@
 # Systems
 
-A collection of hands-on, runnable demos exploring the building blocks of distributed systems and backend infrastructure. Each folder is a self-contained project — its own `package.json` (or `docker-compose.yml`), its own README, and a focused set of scripts you can run in minutes.
+A collection of hands-on, runnable demos exploring the building blocks of distributed systems and backend infrastructure. Each folder is a self-contained project - its own `package.json` (or `docker-compose.yml`), its own README, and a focused set of scripts you can run in minutes.
 
 The goal isn't to build a library. It's to **internalize how things actually work** by wiring them up from scratch: WAL streaming between two real Postgres containers, Lua scripts executing atomically inside Redis, a TCP server parsing its own protocol, a Bloom filter's bitset flipping one hash at a time.
 
@@ -47,7 +47,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
 - Backend developers who've used Redis / Kafka / Postgres but never peeked under the hood.
 - Anyone who learns better by running code than by reading whitepapers.
 
-Each module has a **README that goes deeper than this one** — with protocol specs, algorithm derivations, ASCII architecture diagrams, and experiments to try. Start with the module that interests you and follow its README.
+Each module has a **README that goes deeper than this one** - with protocol specs, algorithm derivations, ASCII architecture diagrams, and experiments to try. Start with the module that interests you and follow its README.
 
 ---
 
@@ -76,7 +76,7 @@ systems/
 
 ## Prerequisites
 
-You won't need all of these for every module — each module's README lists exactly what it depends on.
+You won't need all of these for every module - each module's README lists exactly what it depends on.
 
 | Tool | Used by | Notes |
 |------|---------|-------|
@@ -94,19 +94,19 @@ Everything runs locally. There are no cloud dependencies.
 
 If you're new to distributed systems, here's a path from smallest-scope to largest-scope. Each one builds intuition you'll reuse in the next.
 
-1. **[`custom-protocol/`](#custom-protocol)** — Start here. Understand how two processes talk over a socket. Everything else in this repo rides on top of ideas from here.
-2. **[`bloom-filters/`](#bloom-filters)** — A self-contained data structure that shows up everywhere (caches, DB index probes, CDN).
-3. **[`consistent-hashing/`](#consistent-hashing)** — The routing primitive behind shards, DHTs, and cache clusters.
-4. **[`relationa_db_transactions/`](#relationa_db_transactions)** — Before you distribute a database, understand what a single-node transactional database guarantees.
-5. **[`rate-limiter/`](#rate-limiter)** — Your first taste of "atomicity matters under concurrency" on Redis.
-6. **[`leader-election/`](#leader-election)** — How systems agree on "one of us is in charge" without external help.
-7. **[`db-replica/`](#db-replica)** — Real streaming replication between real Postgres containers. Failover included.
-8. **[`kafka/`](#kafka)** — Move from request/response to event streams; see why "write once, read many" changes system design.
-9. **[`cron-jobs/`](#cron-jobs)** — Durable background work. Closes the loop on queues + workers + retries.
-10. **[`scaling-db/sharding/`](#scaling-dbsharding)** — Partitioning data when a single node isn't enough.
-11. **[`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)** — Tie it together in a tiny app with read/write splitting.
+1. **[`custom-protocol/`](#custom-protocol)** - Start here. Understand how two processes talk over a socket. Everything else in this repo rides on top of ideas from here.
+2. **[`bloom-filters/`](#bloom-filters)** - A self-contained data structure that shows up everywhere (caches, DB index probes, CDN).
+3. **[`consistent-hashing/`](#consistent-hashing)** - The routing primitive behind shards, DHTs, and cache clusters.
+4. **[`relationa_db_transactions/`](#relationa_db_transactions)** - Before you distribute a database, understand what a single-node transactional database guarantees.
+5. **[`rate-limiter/`](#rate-limiter)** - Your first taste of "atomicity matters under concurrency" on Redis.
+6. **[`leader-election/`](#leader-election)** - How systems agree on "one of us is in charge" without external help.
+7. **[`db-replica/`](#db-replica)** - Real streaming replication between real Postgres containers. Failover included.
+8. **[`kafka/`](#kafka)** - Move from request/response to event streams; see why "write once, read many" changes system design.
+9. **[`cron-jobs/`](#cron-jobs)** - Durable background work. Closes the loop on queues + workers + retries.
+10. **[`scaling-db/sharding/`](#scaling-dbsharding)** - Partitioning data when a single node isn't enough.
+11. **[`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)** - Tie it together in a tiny app with read/write splitting.
 
-Skip around freely — nothing is hard-gated on anything else. This is just one sensible order.
+Skip around freely - nothing is hard-gated on anything else. This is just one sensible order.
 
 ---
 
@@ -163,7 +163,7 @@ pnpm virtual-nodes   # distribution with/without virtual nodes
 
 #### [`relationa_db_transactions/`](./relationa_db_transactions)
 
-Twelve annotated SQL scripts that walk you through transaction internals in PostgreSQL. No application code — just `psql` and a single Postgres container.
+Twelve annotated SQL scripts that walk you through transaction internals in PostgreSQL. No application code - just `psql` and a single Postgres container.
 
 **What you'll learn**
 - ACID properties made concrete: atomicity, consistency, isolation, durability.
@@ -180,7 +180,7 @@ docker-compose up -d
 docker exec -i transactions_db psql -U admin -d transactions_db < 01_basic_transaction.sql
 ```
 
-Several scripts are two-terminal exercises (concurrent sessions) — the script header tells you which.
+Several scripts are two-terminal exercises (concurrent sessions) - the script header tells you which.
 
 ---
 
@@ -192,7 +192,7 @@ Two real Postgres containers, streaming replication over WAL, and a manual-failo
 - Why the replica is **read-only by design** (the `standby.signal` file, not a config flag).
 - How `pg_basebackup -R` bootstraps a replica and configures it to follow the primary.
 - The WAL sender / WAL receiver / startup-process trio on both sides of the connection.
-- LSNs (log sequence numbers) — how to tell exactly how far behind a replica is.
+- LSNs (log sequence numbers) - how to tell exactly how far behind a replica is.
 - Async vs sync replication trade-offs.
 - Manual failover with `pg_promote()` and what that means for application connection strings.
 - What happens during network partitions, and the role of `wal_keep_size`.
@@ -283,11 +283,11 @@ pnpm run producer             # terminal 3
 
 #### [`cron-jobs/`](./cron-jobs)
 
-Production-style cron scheduling with BullMQ on Redis. The key insight: **there's no scheduler daemon** — repeatable jobs are just delayed jobs that re-add themselves when executed.
+Production-style cron scheduling with BullMQ on Redis. The key insight: **there's no scheduler daemon** - repeatable jobs are just delayed jobs that re-add themselves when executed.
 
 **What you'll learn**
 - Why BullMQ beats `node-cron` / `setInterval` for anything that matters: persistence, retries with backoff, concurrency limits, stalled-job detection, deduplication, graceful shutdown.
-- Idempotent schedule registration — safe to run on every deploy.
+- Idempotent schedule registration - safe to run on every deploy.
 - Worker failure & recovery: jobs don't pile up when workers are down.
 - Schedule reconciliation: syncing a "source of truth" database with Redis runtime state.
 
@@ -308,7 +308,7 @@ pnpm run list-schedules
 
 #### [`rate-limiter/`](./rate-limiter)
 
-Four rate-limiting algorithms — Fixed Window, Sliding Window Log, Sliding Window Counter, Leaky Bucket — each implemented as a single atomic Lua script running inside Redis.
+Four rate-limiting algorithms - Fixed Window, Sliding Window Log, Sliding Window Counter, Leaky Bucket - each implemented as a single atomic Lua script running inside Redis.
 
 **What you'll learn**
 - The **naive race condition**: why `GET → check → INCR` leaks requests under concurrency (demonstrated with 20 concurrent requests blowing past a limit of 5).
@@ -345,7 +345,7 @@ pnpm all              # same workload, all four algorithms, side by side
 A Redis-RESP-style, text-based, line-delimited protocol on top of raw TCP. Implements `SET`, `GET`, `DEL`, `PING`, `QUIT` with simple strings, errors, and bulk strings.
 
 **What you'll learn**
-- How two processes agree on a wire format — the quiet assumption behind every HTTP call, Redis command, and database driver.
+- How two processes agree on a wire format - the quiet assumption behind every HTTP call, Redis command, and database driver.
 - Request framing (why `\n` or length-prefixing matters).
 - Why databases and queues often invent their own protocols instead of using HTTP: no header overhead, purpose-built parsing, far lower latency per op.
 - The costs: no browser tooling, no Postman, every client has to be written by hand.
@@ -389,13 +389,13 @@ node bully-algorithm.js    # fuller implementation with message types + delays
 
 #### [`implementations/e-commerce-product-listing/`](./implementations/e-commerce-product-listing)
 
-A tiny product catalog backend — Express, Postgres primary + replica, read-heavy traffic — that wires together lessons from **`db-replica/`** and **`scaling-db/read-replicas/`**.
+A tiny product catalog backend - Express, Postgres primary + replica, read-heavy traffic - that wires together lessons from **`db-replica/`** and **`scaling-db/read-replicas/`**.
 
 **Key design decision:** the master handles reads **too**. Since writes are rare (shop owner edits), there's spare capacity for reads. Customer reads are distributed 50/50 between master and replica. Each query is tagged `[MASTER :5432]` or `[REPLICA:5433]` in the logs so you can watch the routing live.
 
 **What you'll learn**
 - How to actually route a connection pool: separate pools for writes vs reads, random distribution across replicas.
-- Why "only read from replicas" isn't a law — you route reads based on your actual write volume.
+- Why "only read from replicas" isn't a law - you route reads based on your actual write volume.
 - A realistic replication status endpoint for monitoring.
 
 **Quick start**
@@ -419,7 +419,7 @@ A few patterns repeat across modules so the whole repo feels consistent.
 
 **Package manager.** `pnpm` is preferred; `npm` works for anything with a lockfile. A couple of older modules still use `npm`.
 
-**Entry scripts.** Most modules expose commands via `package.json` scripts — `pnpm demo`, `pnpm run worker`, etc. Check each module's README for the full list.
+**Entry scripts.** Most modules expose commands via `package.json` scripts - `pnpm demo`, `pnpm run worker`, etc. Check each module's README for the full list.
 
 **Docker.** Anything that needs Redis, Kafka, or Postgres ships a `docker-compose.yml` so you don't pollute your system. Always `docker compose down -v` when you're done to reclaim volumes.
 
@@ -431,7 +431,7 @@ A few patterns repeat across modules so the whole repo feels consistent.
 - Custom-protocol server: `9999`
 - E-commerce backend: `3000`
 
-**Logs over UIs.** Every demo prints heavily — which node got the write, which partition received the message, which replica served the read. Read the terminal, not just the UI.
+**Logs over UIs.** Every demo prints heavily - which node got the write, which partition received the message, which replica served the read. Read the terminal, not just the UI.
 
 **Self-contained.** You can `rm -rf` any top-level folder without breaking anything else.
 
@@ -476,12 +476,12 @@ Each subfolder is an independent project. Run commands from **inside** the relev
 
 Things that informed this repo, roughly in order of "how much they shaped my thinking":
 
-- **Arpit Bhayani** — [arpitbhayani.me](https://arpitbhayani.me/) — the lecture series this repo started as homework for.
-- **Designing Data-Intensive Applications** — Martin Kleppmann. If you read only one book on this topic, read this one.
-- **Database Internals** — Alex Petrov. Goes deeper on storage engines, B-trees, LSM trees, and replication.
-- **PostgreSQL docs** — specifically the chapters on [high availability](https://www.postgresql.org/docs/current/high-availability.html), [WAL](https://www.postgresql.org/docs/current/wal-intro.html), and [MVCC](https://www.postgresql.org/docs/current/mvcc-intro.html).
-- **Kafka: The Definitive Guide** — for going deeper than the `kafka/` module.
-- **Redis in Action** and the Redis command docs — especially the sections on Lua scripting and keyspace design.
+- **Arpit Bhayani** - [arpitbhayani.me](https://arpitbhayani.me/) - the lecture series this repo started as homework for.
+- **Designing Data-Intensive Applications** - Martin Kleppmann. If you read only one book on this topic, read this one.
+- **Database Internals** - Alex Petrov. Goes deeper on storage engines, B-trees, LSM trees, and replication.
+- **PostgreSQL docs** - specifically the chapters on [high availability](https://www.postgresql.org/docs/current/high-availability.html), [WAL](https://www.postgresql.org/docs/current/wal-intro.html), and [MVCC](https://www.postgresql.org/docs/current/mvcc-intro.html).
+- **Kafka: The Definitive Guide** - for going deeper than the `kafka/` module.
+- **Redis in Action** and the Redis command docs - especially the sections on Lua scripting and keyspace design.
 
 Companion write-ups for many demos live on the blog: [System Design](https://pulkitxm.com/series/system-design). Each module README links to its closest post where one exists.
 
@@ -489,4 +489,4 @@ Companion write-ups for many demos live on the blog: [System Design](https://pul
 
 ## License
 
-MIT. Use any of this as you like — take ideas, copy snippets into your own projects, fork and extend. Attribution appreciated but not required.
+MIT. Use any of this as you like - take ideas, copy snippets into your own projects, fork and extend. Attribution appreciated but not required.

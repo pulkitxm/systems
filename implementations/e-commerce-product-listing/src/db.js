@@ -27,7 +27,7 @@ export function write(text, params) {
 /**
  * Reads are randomly distributed between master and replica.
  *
- * Master can absolutely serve reads — there's no rule that master only handles
+ * Master can absolutely serve reads - there's no rule that master only handles
  * writes. Since writes are infrequent (only shop owner via admin), master has
  * plenty of capacity for reads too.
  */

@@ -1,6 +1,6 @@
 # E-Commerce Product Listing
 
-A small shop owner's product catalog — 100 items, read-heavy traffic, PostgreSQL with streaming replication.
+A small shop owner's product catalog - 100 items, read-heavy traffic, PostgreSQL with streaming replication.
 
 ## Architecture
 
@@ -70,20 +70,20 @@ node src/server.js
 
 ## API Endpoints
 
-### Admin (shop owner) — writes to MASTER
+### Admin (shop owner) - writes to MASTER
 
 | Method | Path                | Body |
 |--------|---------------------|------|
 | POST   | /admin/products     | `{ title, description, price, color, category, image_url, stock }` |
 | PUT    | /admin/products/:id | any fields to update |
-| DELETE | /admin/products/:id | — |
+| DELETE | /admin/products/:id | - |
 
-### Customer (catalog) — reads from MASTER or REPLICA (random)
+### Customer (catalog) - reads from MASTER or REPLICA (random)
 
 | Method | Path          | Query params |
 |--------|---------------|--------------|
 | GET    | /products     | `?category=`, `?color=`, `?sort=price_asc\|price_desc` |
-| GET    | /products/:id | — |
+| GET    | /products/:id | - |
 
 ### Utility
 
@@ -95,7 +95,7 @@ node src/server.js
 ## Try it
 
 ```bash
-# List all products (watch logs — randomly hits master or replica)
+# List all products (watch logs - randomly hits master or replica)
 curl http://localhost:3000/products
 
 # Filter by category
@@ -121,7 +121,7 @@ curl http://localhost:3000/products/1
 curl http://localhost:3000/replication
 ```
 
-Watch server logs — each query is tagged `[MASTER :5432]` or `[REPLICA:5433]` so you can see the read distribution.
+Watch server logs - each query is tagged `[MASTER :5432]` or `[REPLICA:5433]` so you can see the read distribution.
 
 ## Cleanup
 

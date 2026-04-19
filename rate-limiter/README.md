@@ -68,7 +68,7 @@ pnpm leaky-bucket
 - Bucket of capacity N, constant leak rate R req/sec.
 - Stores `{ level, lastTimestamp }` per user in a Redis hash.
 - On each request: leak based on elapsed time, then try to add one unit.
-- Guarantees a steady outflow rate — great for downstream protection.
+- Guarantees a steady outflow rate - great for downstream protection.
 
 ### Race Condition
 
@@ -114,7 +114,7 @@ t3:  client B → INCR counter → 101         ← over the limit
 
 Both clients read `99`, both decided they were under the cap, and the counter overshoots. This is exactly what `demo-race-condition.ts` reproduces.
 
-Redis is single-threaded and runs one command at a time, but "one command" is the unit of atomicity — not "my three commands in a row". A Lua script, however, is dispatched as a single command (`EVAL`). Redis refuses to interleave anything else while your script runs. So the entire read-check-write becomes one atomic step. Every script here relies on this guarantee.
+Redis is single-threaded and runs one command at a time, but "one command" is the unit of atomicity - not "my three commands in a row". A Lua script, however, is dispatched as a single command (`EVAL`). Redis refuses to interleave anything else while your script runs. So the entire read-check-write becomes one atomic step. Every script here relies on this guarantee.
 
 ### How `EVAL` is wired up
 
@@ -128,9 +128,9 @@ Inside Lua those become `KEYS[1..n]` and `ARGV[1..m]`. The split exists because 
 
 Every limiter in this repo returns a **3-element array** `{allowed, remaining, retry}`:
 
-- `allowed` — `1` or `0` (Lua has no booleans in the Redis reply protocol).
-- `remaining` — how many requests are left in the window / capacity.
-- `retry` — milliseconds until the client should try again (0 when allowed).
+- `allowed` - `1` or `0` (Lua has no booleans in the Redis reply protocol).
+- `remaining` - how many requests are left in the window / capacity.
+- `retry` - milliseconds until the client should try again (0 when allowed).
 
 The TypeScript side unpacks that tuple and maps it into `RateLimitResult`.
 
@@ -156,9 +156,9 @@ const windowIndex = Math.floor(Date.now() / 1000 / this.windowSeconds);
 const key = `${this.namespace}:${clientId}:${windowIndex}`;
 ```
 
-`windowIndex` is just "which 5-second slot are we in right now" — an integer that ticks over once per window. `Math.floor(now_seconds / 5)` at `t=12s` gives `2`, at `t=14s` gives `2`, at `t=15s` gives `3`. Two requests in the same slot share the same key. Cross a boundary and you land on a new key with a fresh counter.
+`windowIndex` is just "which 5-second slot are we in right now" - an integer that ticks over once per window. `Math.floor(now_seconds / 5)` at `t=12s` gives `2`, at `t=14s` gives `2`, at `t=15s` gives `3`. Two requests in the same slot share the same key. Cross a boundary and you land on a new key with a fresh counter.
 
-This is the whole reason fixed window is cheap: no explicit reset logic, no cleanup script — the key literally ceases to exist after its TTL.
+This is the whole reason fixed window is cheap: no explicit reset logic, no cleanup script - the key literally ceases to exist after its TTL.
 
 **The Lua script.**
 
@@ -181,9 +181,9 @@ return {1, limit - count, ttl}
 
 Step by step:
 
-1. **`INCR key`** — atomic counter-plus-one. If the key didn't exist, Redis creates it with value `0` and then increments, so the first call returns `1`.
-2. **`if count == 1 then EXPIRE ...`** — only the *first* call in a window sets the TTL. If we called `EXPIRE` on every request, the key would never expire (each request would push the expiry further out). This is a classic fixed-window bug.
-3. **`PTTL key`** — remaining TTL in milliseconds. We use this as the retry hint, which doubles as "when does this window close". Using `PTTL` instead of recomputing from `Date.now()` means we read the authoritative value from Redis itself.
+1. **`INCR key`** - atomic counter-plus-one. If the key didn't exist, Redis creates it with value `0` and then increments, so the first call returns `1`.
+2. **`if count == 1 then EXPIRE ...`** - only the *first* call in a window sets the TTL. If we called `EXPIRE` on every request, the key would never expire (each request would push the expiry further out). This is a classic fixed-window bug.
+3. **`PTTL key`** - remaining TTL in milliseconds. We use this as the retry hint, which doubles as "when does this window close". Using `PTTL` instead of recomputing from `Date.now()` means we read the authoritative value from Redis itself.
 4. **`count > limit` → reject**. Note: the request that *reaches* the limit (`count == limit`) is still allowed; only `count == limit + 1` and beyond are rejected. This matches the "allow exactly `limit` requests per window" semantic.
 
 **The `INCR` + `EXPIRE` race.** Even inside Lua there's a subtlety people miss: if you do
@@ -193,7 +193,7 @@ redis.call("INCR", key)
 redis.call("EXPIRE", key, window)
 ```
 
-unconditionally, you reset the TTL every request — making the window longer than it should be. Gating `EXPIRE` on `count == 1` is the fix, and it's only safe *because* Lua atomicity guarantees these two commands are adjacent.
+unconditionally, you reset the TTL every request - making the window longer than it should be. Gating `EXPIRE` on `count == 1` is the fix, and it's only safe *because* Lua atomicity guarantees these two commands are adjacent.
 
 **Why the edge burst exists.** Because the key identity changes at window boundaries. At `t=4.9s` requests hit `...:0`, at `t=5.0s` they hit `...:1`. Those are two different keys with two independent counters. A client who spent the first 4.9s silent, hammered 5 requests at the end, then hammered 5 more at the start of the next window sent 10 requests in ~200ms and every single one was "within the rules" by this algorithm's books. The `demo-fixed-window.ts` script literally sleeps to line up with a window boundary and reproduces this.
 
@@ -213,7 +213,7 @@ File: [`src/sliding-window-log.ts`](./src/sliding-window-log.ts)
 const member = `${now}-${Math.random().toString(36).slice(2, 8)}`;
 ```
 
-`ZADD` treats members as a set — adding the same member twice updates its score instead of creating a second entry. If two concurrent requests happened to share the exact millisecond timestamp, using `now` alone as the member would silently drop one of them. The random suffix makes collisions vanishingly unlikely.
+`ZADD` treats members as a set - adding the same member twice updates its score instead of creating a second entry. If two concurrent requests happened to share the exact millisecond timestamp, using `now` alone as the member would silently drop one of them. The random suffix makes collisions vanishingly unlikely.
 
 Production-grade alternative: use `XADD` on a stream, or `ZADD` with a per-client monotonic sequence number. The random suffix is fine for a demo.
 
@@ -245,11 +245,11 @@ return {1, limit - count - 1, 0}
 
 Step by step:
 
-1. **`ZREMRANGEBYSCORE key 0 (now - windowMs)`** — delete all entries whose timestamp is older than the window. In English: "forget every request that no longer counts". This happens *before* we check the count, so stale entries never inflate the count.
-2. **`ZCARD key`** — the exact number of requests still inside the rolling window. This is why the algorithm is called "exact": no approximation, no weighting.
+1. **`ZREMRANGEBYSCORE key 0 (now - windowMs)`** - delete all entries whose timestamp is older than the window. In English: "forget every request that no longer counts". This happens *before* we check the count, so stale entries never inflate the count.
+2. **`ZCARD key`** - the exact number of requests still inside the rolling window. This is why the algorithm is called "exact": no approximation, no weighting.
 3. **`count >= limit` → reject with retry hint.** The retry hint is the interesting part: `ZRANGE key 0 0 WITHSCORES` fetches the oldest surviving entry. Once that entry ages out (`oldest.score + windowMs` time from now), there will be room for one more request. That's the exact moment the client should try again.
-4. **Otherwise: `ZADD` + `PEXPIRE`**. `PEXPIRE` is belt-and-suspenders — if a user stops sending traffic, `ZREMRANGEBYSCORE` would never run again and the set would sit around forever. `PEXPIRE windowMs` lets Redis reclaim the key on its own if nothing touches it.
-5. **`limit - count - 1`** — the `-1` accounts for the request we just allowed but have not yet counted.
+4. **Otherwise: `ZADD` + `PEXPIRE`**. `PEXPIRE` is belt-and-suspenders - if a user stops sending traffic, `ZREMRANGEBYSCORE` would never run again and the set would sit around forever. `PEXPIRE windowMs` lets Redis reclaim the key on its own if nothing touches it.
+5. **`limit - count - 1`** - the `-1` accounts for the request we just allowed but have not yet counted.
 
 **Why no edge burst.** There's no concept of "current window" and "next window" anymore. The window is always "the last `windowMs` from this exact moment". You cannot game a boundary because there isn't one.
 
@@ -261,7 +261,7 @@ Step by step:
 
 File: [`src/sliding-window-counter.ts`](./src/sliding-window-counter.ts)
 
-**Idea.** Keep the two fixed-window counters: the one for the current slot and the one for the previous slot. Estimate the true sliding-window count by taking all of `currentCount` plus a linearly-decaying fraction of `previousCount`. Two integers per user — same memory as fixed window — but the numbers behave as if the window slides.
+**Idea.** Keep the two fixed-window counters: the one for the current slot and the one for the previous slot. Estimate the true sliding-window count by taking all of `currentCount` plus a linearly-decaying fraction of `previousCount`. Two integers per user - same memory as fixed window - but the numbers behave as if the window slides.
 
 **The key math.** If we're `elapsedInWindow` milliseconds into the current slot (slot length = `windowMs`), a true sliding window of length `windowMs` overlaps:
 
@@ -336,8 +336,8 @@ File: [`src/leaky-bucket.ts`](./src/leaky-bucket.ts)
 
 **State.** Per user, two numbers:
 
-- `level` — current water level, continuous (not integer).
-- `ts` — last time we touched the bucket.
+- `level` - current water level, continuous (not integer).
+- `ts` - last time we touched the bucket.
 
 Stored as a Redis hash (`HMGET`/`HMSET`). A hash is nicer than two independent keys here because both fields must be read and written atomically, and hashes give you that for free in Lua.
 
@@ -386,12 +386,12 @@ return {1, remaining, 0}
 Step by step:
 
 1. **Load state.** `HMGET` returns a Lua table; missing fields come back as `false`. `tonumber(false)` is `nil`, so `or 0` and `or now` handle the first-time case: a fresh bucket starts empty with `lastTs = now`, so `elapsed` on the very first call is `0`, `leaked` is `0`, and the starting level stays at `0`.
-2. **Leak based on elapsed time.** `elapsed * leakRatePerMs` is the water that drained during the idle period. `math.max(0, …)` clamps the level at `0` — we can't drain past empty.
+2. **Leak based on elapsed time.** `elapsed * leakRatePerMs` is the water that drained during the idle period. `math.max(0, …)` clamps the level at `0` - we can't drain past empty.
 3. **Overflow check.** `level + 1` simulates "try to add this request". If that would cross `capacity`, reject.
 4. **Retry hint on reject.** `overflow = (level + 1) - capacity` is how much water would be over the brim. `overflow / leakRatePerMs` is how many milliseconds of leakage it'll take to make that much room. `math.ceil` rounds up so the client isn't told to retry slightly too early.
-5. **Persist state even on reject.** Note that we write `HMSET` with the *leaked* level and the new `ts`. This is important: if we didn't persist the leak, the next request would recompute `elapsed` from `lastTs` — the original `lastTs` from many requests ago — and eventually overflow floating-point precision or do redundant work.
+5. **Persist state even on reject.** Note that we write `HMSET` with the *leaked* level and the new `ts`. This is important: if we didn't persist the leak, the next request would recompute `elapsed` from `lastTs` - the original `lastTs` from many requests ago - and eventually overflow floating-point precision or do redundant work.
 6. **Allow path.** Bump the level by 1, persist, refresh TTL.
-7. **TTL.** `capacity / leakRatePerMs` is "the time it takes a full bucket to drain to empty". Any bucket untouched longer than that has drained completely anyway, so losing its state is fine — we set TTL to exactly that horizon.
+7. **TTL.** `capacity / leakRatePerMs` is "the time it takes a full bucket to drain to empty". Any bucket untouched longer than that has drained completely anyway, so losing its state is fine - we set TTL to exactly that horizon.
 
 **Why leaky bucket is different from token bucket.** They're often confused. Token bucket *allows* a burst up to capacity (tokens accumulate during idle periods). Leaky bucket *also* allows a burst up to capacity, but then every subsequent request is forced into the leak-rate cadence. Leaky bucket's promise is "the downstream system sees no more than R req/s, ever, regardless of the arrival pattern". Token bucket does not give that guarantee.
 

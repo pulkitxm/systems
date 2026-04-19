@@ -68,10 +68,10 @@ pnpm run add-schedule
 ```
 
 This registers 4 sample schedules:
-- `daily-report` — every 1 minute (demo)
-- `cleanup` — every 2 minutes
-- `health-check` — every 1 minute
-- `send-digest` — every 3 minutes
+- `daily-report` - every 1 minute (demo)
+- `cleanup` - every 2 minutes
+- `health-check` - every 1 minute
+- `send-digest` - every 3 minutes
 
 ### 4. Start the Worker
 
@@ -102,9 +102,9 @@ pnpm run sync-schedules
 
 ### In the Terminal
 1. **Repeatable execution**: Jobs fire on their cron schedule without any in-process timer
-2. **Retry on failure**: The `health-check` task randomly fails ~20% of the time — watch BullMQ retry it with exponential backoff
+2. **Retry on failure**: The `health-check` task randomly fails ~20% of the time - watch BullMQ retry it with exponential backoff
 3. **Concurrency**: Multiple jobs can process simultaneously (concurrency: 3)
-4. **Graceful shutdown**: Press Ctrl+C — the worker finishes active jobs before stopping
+4. **Graceful shutdown**: Press Ctrl+C - the worker finishes active jobs before stopping
 
 ### In Redis Commander (http://localhost:8081)
 1. Browse the `bull:cron-jobs:*` keys to see queue state
@@ -131,7 +131,7 @@ pnpm run add-schedule
 
 ### Experiment 3: Schedule Reconciliation
 1. Run `add-schedule` to register the original 4 schedules
-2. Run `sync-schedules` — the mock database has:
+2. Run `sync-schedules` - the mock database has:
    - `cleanup` changed from every 2 min to every 5 min
    - `send-digest` disabled
 3. **Observe**: Sync updates the changed schedule, removes the disabled one, leaves the rest unchanged.
@@ -163,10 +163,10 @@ docker-compose down -v
 
 ## 📖 Key Takeaways
 
-1. **No scheduler process**: BullMQ cron is just delayed jobs that chain — no daemon, no polling loop
+1. **No scheduler process**: BullMQ cron is just delayed jobs that chain - no daemon, no polling loop
 2. **Redis is the source of truth**: Schedules survive app restarts because they live in Redis, not your process
 3. **Idempotent registration**: Safe to call `queue.add()` with the same repeat options on every deploy
-4. **Jobs don't pile up**: If workers are down, only the next occurrence waits — no backlog of missed runs
+4. **Jobs don't pile up**: If workers are down, only the next occurrence waits - no backlog of missed runs
 5. **Reconciliation matters**: Always have a script to sync your database (source of truth) with Redis (runtime state)
 
 ## Related

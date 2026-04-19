@@ -4,7 +4,7 @@ import { read, write, close } from "./db.js";
 const app = express();
 app.use(express.json());
 
-// ─── Admin APIs (shop owner) — writes go to MASTER ──────────
+// ─── Admin APIs (shop owner) - writes go to MASTER ──────────
 
 app.post("/admin/products", async (req, res) => {
   const { title, description, price, color, category, image_url, stock } = req.body;
@@ -56,7 +56,7 @@ app.delete("/admin/products/:id", async (req, res) => {
   }
 });
 
-// ─── Catalog APIs (customers) — reads split between MASTER & REPLICA ─
+// ─── Catalog APIs (customers) - reads split between MASTER & REPLICA ─
 
 app.get("/products", async (req, res) => {
   const { category, color, sort } = req.query;
