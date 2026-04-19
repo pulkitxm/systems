@@ -1,0 +1,23 @@
+{
+  "name": "rate-limiter-demo",
+  "version": "1.0.0",
+  "description": "Rate limiting algorithms implemented on Redis: Fixed Window, Sliding Window (Log + Counter), Leaky Bucket",
+  "type": "module",
+  "scripts": {
+    "fixed-window": "tsx src/demo-fixed-window.ts",
+    "sliding-log": "tsx src/demo-sliding-window-log.ts",
+    "sliding-counter": "tsx src/demo-sliding-window-counter.ts",
+    "leaky-bucket": "tsx src/demo-leaky-bucket.ts",
+    "race-condition": "tsx src/demo-race-condition.ts",
+    "all": "tsx src/demo-all.ts"
+  },
+  "keywords": ["rate-limiting", "redis", "lua", "fixed-window", "sliding-window", "leaky-bucket"],
+  "dependencies": {
+    "ioredis": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}
