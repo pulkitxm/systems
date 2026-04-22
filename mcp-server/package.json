@@ -1,0 +1,23 @@
+{
+  "name": "mcp-server-demo",
+  "version": "1.0.0",
+  "description": "Tiny MCP server that auto-generates tools from a Hono + OpenAPI app",
+  "type": "module",
+  "scripts": {
+    "server": "tsx src/server.ts",
+    "demo": "tsx src/demo.ts",
+    "list-tools": "tsx src/demo.ts list",
+    "call-tool": "tsx src/demo.ts call"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.2",
+    "@hono/zod-openapi": "^0.18.3",
+    "hono": "^4.6.14",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}
