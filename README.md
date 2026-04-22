@@ -32,6 +32,8 @@ The goal isn't to build a library. It's to **internalize how things actually wor
     - [`custom-protocol/`](#custom-protocol)
   - [Coordination](#coordination)
     - [`leader-election/`](#leader-election)
+  - [AI & Agents](#ai--agents)
+    - [`mcp-server/`](#mcp-server)
   - [End-to-End Implementations](#end-to-end-implementations)
     - [`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)
 - [Common Conventions](#common-conventions)
@@ -64,6 +66,7 @@ systems/
 │   └── e-commerce-product-listing/   End-to-end: API + master/replica routing
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
+├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
 ├── rate-limiter/                     4 algorithms, all atomic Lua on Redis
 ├── relationa_db_transactions/        12 SQL scripts: ACID, MVCC, isolation, WAL
 ├── scaling-db/
@@ -382,6 +385,34 @@ cd leader-election
 node demo.js               # high-level simulation
 node bully-algorithm.js    # fuller implementation with message types + delays
 ```
+
+---
+
+### AI & Agents
+
+#### [`mcp-server/`](./mcp-server)
+
+A tiny [Model Context Protocol](https://modelcontextprotocol.io) server that wraps a Hono + OpenAPI API and auto-generates one MCP tool per allowed route. Add a route to the REST API, restart, and the new tool shows up in `tools/list` on the next connection. No hand-maintained tool catalogue.
+
+**What you'll learn**
+
+- What MCP is in plain terms: tools (model-callable functions), resources (pinned read-only data), prompts (slash-style workflow shortcuts).
+- How to turn an OpenAPI document into MCP tool definitions - names, titles, descriptions, and input schemas - without writing them twice.
+- Why running the MCP handler in the same process as your REST API means you reuse every middleware, validator, and auth check you already wrote.
+- The deny list pattern: filter dangerous routes (admin, auth, webhooks, credentials) before registration so they never appear to the model.
+- Stateless JSON-RPC over HTTP: `initialize`, `tools/list`, `tools/call`, `resources/list`, `prompts/list` as plain POSTs, no SSE required.
+
+**Quick start**
+
+```bash
+cd mcp-server
+pnpm install
+
+pnpm server          # terminal 1: starts the server on :3333
+pnpm demo            # terminal 2: walks through initialize → list tools → call tools
+```
+
+Companion blog post: [An MCP Server That Writes Itself](https://pulkitxm.com/blogs/mcp-server-that-writes-itself).
 
 ---
 
