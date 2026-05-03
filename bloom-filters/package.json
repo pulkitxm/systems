@@ -4,6 +4,7 @@
   "description": "Bloom Filter implementation and demo in TypeScript",
   "type": "module",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "demo": "npx tsx src/demo.ts",
     "false-positive": "npx tsx src/false-positive-demo.ts",
     "redis": "npx tsx src/redis-demo.ts"

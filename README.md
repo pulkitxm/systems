@@ -480,6 +480,12 @@ A few patterns repeat across modules so the whole repo feels consistent.
 
 **Package manager.** `pnpm` is preferred; `npm` works for anything with a lockfile. A couple of older modules still use `npm`.
 
+**Type checking.** Every folder that ships a `tsconfig.json` exposes `pnpm run type-check` (`tsc --noEmit`). To verify all TypeScript modules at once from the repo root:
+
+```bash
+./scripts/typecheck-all.sh
+```
+
 **Entry scripts.** Most modules expose commands via `package.json` scripts - `pnpm demo`, `pnpm run worker`, etc. Check each module's README for the full list.
 
 **Docker.** Anything that needs Redis, Kafka, or Postgres ships a `docker-compose.yml` so you don't pollute your system. Always `docker compose down -v` when you're done to reclaim volumes.

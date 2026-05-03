@@ -4,6 +4,7 @@
   "description": "Tiny MCP server that auto-generates tools from a Hono + OpenAPI app",
   "type": "module",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "server": "tsx src/server.ts",
     "demo": "tsx src/demo.ts",
     "list-tools": "tsx src/demo.ts list",

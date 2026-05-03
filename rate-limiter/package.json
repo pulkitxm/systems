@@ -4,6 +4,7 @@
   "description": "Rate limiting algorithms implemented on Redis: Fixed Window, Sliding Window (Log + Counter), Leaky Bucket",
   "type": "module",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "fixed-window": "tsx src/demo-fixed-window.ts",
     "sliding-log": "tsx src/demo-sliding-window-log.ts",
     "sliding-counter": "tsx src/demo-sliding-window-counter.ts",

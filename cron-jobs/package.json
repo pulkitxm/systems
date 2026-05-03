@@ -4,6 +4,7 @@
   "description": "Cron jobs with BullMQ and Redis: repeatable jobs, workers, graceful shutdown, and schedule reconciliation",
   "main": "index.js",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "worker": "ts-node src/worker.ts",
     "add-schedule": "ts-node src/add-schedule.ts",
     "list-schedules": "ts-node src/list-schedules.ts",

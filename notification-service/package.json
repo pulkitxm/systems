@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "demo:single": "npx tsx src/demo-single.ts",
     "demo:bulk": "npx tsx src/demo-bulk.ts",
     "demo:priority": "npx tsx src/demo-priority.ts",

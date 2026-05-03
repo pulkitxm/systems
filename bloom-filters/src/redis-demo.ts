@@ -79,7 +79,7 @@ async function main() {
 
     // Get filter info
     console.log("--- Filter Info (BF.INFO) ---");
-    const info = await redis.call("BF.INFO", filterName);
+    const info = (await redis.call("BF.INFO", filterName)) as (string | number)[];
     console.log("Filter statistics:");
     for (let i = 0; i < info.length; i += 2) {
       console.log(`  ${info[i]}: ${info[i + 1]}`);

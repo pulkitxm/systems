@@ -23,7 +23,7 @@ export function formatNumber(n: number): string {
   return n.toLocaleString();
 }
 
-export function printStats(label: string, stats: Record<string, unknown>): void {
+export function printStats(label: string, stats: object): void {
   console.log(`\n📊 ${label}:`);
   for (const [key, value] of Object.entries(stats)) {
     const formattedKey = key.replace(/([A-Z])/g, " $1").toLowerCase();

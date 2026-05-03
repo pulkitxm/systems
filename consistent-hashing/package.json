@@ -4,6 +4,7 @@
   "description": "Consistent Hashing implementation and demo in TypeScript",
   "type": "module",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "demo": "npx tsx src/demo.ts",
     "scale": "npx tsx src/scale-demo.ts",
     "virtual-nodes": "npx tsx src/virtual-nodes-demo.ts"

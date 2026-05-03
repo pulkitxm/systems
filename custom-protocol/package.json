@@ -4,6 +4,7 @@
   "description": "Custom TCP protocol demonstration - building a key-value store protocol",
   "main": "dist/server.js",
   "scripts": {
+    "type-check": "tsc --noEmit",
     "build": "tsc",
     "server": "npm run build && node dist/server.js",
     "client": "npm run build && node dist/client.js",

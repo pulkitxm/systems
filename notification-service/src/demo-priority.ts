@@ -1,4 +1,4 @@
-import { cleanup, type NotificationMessage, type Priority } from "./connection.js";
+import { cleanup } from "./connection.js";
 import { createTemplate } from "./template.js";
 import { sendSingleNotification, sendBulkNotification } from "./control-service.js";
 import { createAllWorkers, getWorkerStats, resetWorkerStats } from "./worker.js";
@@ -39,7 +39,7 @@ Unsubscribe: {{unsubUrl}}`,
     "Payment Confirmed - ${{amount}}",
     `Hi {{user.name}},
 
-Your payment of ${{amount}} has been processed successfully.
+Your payment of \${{amount}} has been processed successfully.
 
 Transaction ID: {{transactionId}}
 Date: {{date}}
