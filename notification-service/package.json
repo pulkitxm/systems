@@ -1,0 +1,26 @@
+{
+  "name": "notification-service",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "demo:single": "npx tsx src/demo-single.ts",
+    "demo:bulk": "npx tsx src/demo-bulk.ts",
+    "demo:priority": "npx tsx src/demo-priority.ts",
+    "demo:dedup": "npx tsx src/demo-dedup.ts",
+    "demo:all": "npx tsx src/demo-all.ts",
+    "worker:p1": "npx tsx src/run-worker.ts P1",
+    "worker:p2": "npx tsx src/run-worker.ts P2",
+    "worker:p3": "npx tsx src/run-worker.ts P3",
+    "worker:all": "npx tsx src/run-worker.ts ALL"
+  },
+  "dependencies": {
+    "bullmq": "^5.34.8",
+    "ioredis": "^5.4.2",
+    "resend": "^4.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

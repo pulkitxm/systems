@@ -26,6 +26,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
   - [Messaging & Scheduling](#messaging--scheduling)
     - [`kafka/`](#kafka)
     - [`cron-jobs/`](#cron-jobs)
+    - [`notification-service/`](#notification-service)
   - [Traffic Control](#traffic-control)
     - [`rate-limiter/`](#rate-limiter)
   - [Networking](#networking)
@@ -67,6 +68,7 @@ systems/
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
+├── notification-service/             Priority queues, bulk iteration, Bloom dedup
 ├── rate-limiter/                     4 algorithms, all atomic Lua on Redis
 ├── relationa_db_transactions/        12 SQL scripts: ACID, MVCC, isolation, WAL
 ├── scaling-db/
@@ -304,6 +306,34 @@ pnpm run add-schedule         # register 4 sample schedules
 pnpm run worker               # process them
 pnpm run list-schedules
 ```
+
+---
+
+#### [`notification-service/`](./notification-service)
+
+A scalable notification service with templates, priority queues (P1/P2/P3), bulk iteration, and Bloom filter deduplication. Simulates Resend, Twilio, Firebase, and APNS providers.
+
+**What you'll learn**
+- **Asynchronous architecture**: control service enqueues, returns immediately; workers send via provider SDKs later.
+- **Priority queues prevent starvation**: P1 (transactional) notifications never blocked by P3 (marketing) campaigns.
+- **Bulk notification pattern**: iterator workers read from a users replica, expand jobs into individual messages, avoiding control service bottleneck.
+- **Bloom filter deduplication**: prevents duplicate sends when iterator crashes and restarts. False positives (skip a user) acceptable for marketing; false negatives (duplicates) impossible.
+- **Workers are dumb**: receive fully-populated messages with contact info, body, subject - no database calls, no business logic.
+
+**Quick start**
+
+```bash
+cd notification-service
+pnpm install
+docker-compose up -d        # Redis Stack with Bloom filter support
+pnpm demo:single            # single notification flow
+pnpm demo:bulk              # bulk campaign with iterator
+pnpm demo:priority          # P1 bypasses P3 congestion
+pnpm demo:dedup             # Bloom filter prevents duplicates
+pnpm demo:all               # complete walkthrough
+```
+
+Companion blog post: [Designing and Scaling Notifications](https://pulkitxm.com/series/system-design/notification-service).
 
 ---
 
