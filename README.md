@@ -311,14 +311,15 @@ pnpm run list-schedules
 
 #### [`implementations/notification-service/`](./implementations/notification-service)
 
-A scalable notification service with templates, priority queues (P1/P2/P3), bulk iteration, and Bloom filter deduplication. Simulates Resend, Twilio, Firebase, and APNS providers.
+A comprehensive system design guide and TypeScript implementation of a scalable notification service. Covers templates, priority queues (P1/P2/P3), bulk iteration, and Bloom filter deduplication. Simulates Resend, Twilio, Firebase, and APNS providers.
 
 **What you'll learn**
+- **Day zero to production**: evolve from synchronous single-user flow to fully async, horizontally scalable architecture.
 - **Asynchronous architecture**: control service enqueues, returns immediately; workers send via provider SDKs later.
-- **Priority queues prevent starvation**: P1 (transactional) notifications never blocked by P3 (marketing) campaigns.
+- **The starvation problem**: why a single queue fails and how priority queues (P1/P2/P3) solve it.
 - **Bulk notification pattern**: iterator workers read from a users replica, expand jobs into individual messages, avoiding control service bottleneck.
-- **Bloom filter deduplication**: prevents duplicate sends when iterator crashes and restarts. False positives (skip a user) acceptable for marketing; false negatives (duplicates) impossible.
-- **Workers are dumb**: receive fully-populated messages with contact info, body, subject - no database calls, no business logic.
+- **The deduplication problem**: naive tracking vs Bloom filters - storage math (4 GB → 114 MB for 100M users), trade-offs, and where to deduplicate.
+- **Design principles**: separation of concerns, dumb workers, queue decoupling, trading accuracy for efficiency.
 
 **Quick start**
 
@@ -332,8 +333,6 @@ pnpm demo:priority          # P1 bypasses P3 congestion
 pnpm demo:dedup             # Bloom filter prevents duplicates
 pnpm demo:all               # complete walkthrough
 ```
-
-Companion blog post: [Designing and Scaling Notifications](https://pulkitxm.com/series/system-design/notification-service).
 
 ---
 
