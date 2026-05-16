@@ -36,6 +36,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
   - [AI & Agents](#ai--agents)
     - [`mcp-server/`](#mcp-server)
   - [End-to-End Implementations](#end-to-end-implementations)
+    - [`implementations/abuse-masker/`](#implementationsabuse-masker)
     - [`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)
 - [Common Conventions](#common-conventions)
 - [Troubleshooting](#troubleshooting)
@@ -64,6 +65,7 @@ systems/
 ├── custom-protocol/                  Redis-RESP-like TCP protocol from scratch
 ├── db-replica/                       Postgres streaming replication + failover
 ├── implementations/
+│   ├── abuse-masker/                 Real-time chat abuse masking with Trie O(n)
 │   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
 │   └── notification-service/         Priority queues, bulk iteration, Bloom dedup
 ├── kafka/                            Topics, partitions, consumer groups
@@ -446,6 +448,29 @@ Companion blog post: [An MCP Server That Writes Itself](https://pulkitxm.com/blo
 ---
 
 ### End-to-End Implementations
+
+#### [`implementations/abuse-masker/`](./implementations/abuse-masker)
+
+Real-time abuse masking for live stream chat using a Trie data structure. Socket.IO server with CLI client. Demonstrates why not everything needs to be a microservice.
+
+**What you'll learn**
+- **Trie data structure**: character-by-character string matching without tokenization.
+- **O(n) masking algorithm**: single-pass traversal of message and trie simultaneously.
+- **Why NOT a separate service**: network calls add milliseconds, trie lookups take microseconds. For pure computation, keep it in-memory.
+- **Socket.IO rooms**: broadcast abstraction for real-time chat.
+- **Load once, use forever**: fetch abuse dictionary on startup, then pure in-memory operations.
+
+**Quick start**
+
+```bash
+cd implementations/abuse-masker
+bun install
+bun server          # terminal 1
+bun client          # terminal 2
+bun client          # terminal 3
+```
+
+---
 
 #### [`implementations/e-commerce-product-listing/`](./implementations/e-commerce-product-listing)
 
