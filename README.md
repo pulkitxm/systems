@@ -26,7 +26,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
   - [Messaging & Scheduling](#messaging--scheduling)
     - [`kafka/`](#kafka)
     - [`cron-jobs/`](#cron-jobs)
-    - [`notification-service/`](#notification-service)
+    - [`implementations/notification-service/`](#implementationsnotification-service)
   - [Traffic Control](#traffic-control)
     - [`rate-limiter/`](#rate-limiter)
   - [Networking](#networking)
@@ -64,11 +64,11 @@ systems/
 ├── custom-protocol/                  Redis-RESP-like TCP protocol from scratch
 ├── db-replica/                       Postgres streaming replication + failover
 ├── implementations/
-│   └── e-commerce-product-listing/   End-to-end: API + master/replica routing
+│   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
+│   └── notification-service/         Priority queues, bulk iteration, Bloom dedup
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
-├── notification-service/             Priority queues, bulk iteration, Bloom dedup
 ├── rate-limiter/                     4 algorithms, all atomic Lua on Redis
 ├── relationa_db_transactions/        12 SQL scripts: ACID, MVCC, isolation, WAL
 ├── scaling-db/
@@ -309,7 +309,7 @@ pnpm run list-schedules
 
 ---
 
-#### [`notification-service/`](./notification-service)
+#### [`implementations/notification-service/`](./implementations/notification-service)
 
 A scalable notification service with templates, priority queues (P1/P2/P3), bulk iteration, and Bloom filter deduplication. Simulates Resend, Twilio, Firebase, and APNS providers.
 
@@ -323,7 +323,7 @@ A scalable notification service with templates, priority queues (P1/P2/P3), bulk
 **Quick start**
 
 ```bash
-cd notification-service
+cd implementations/notification-service
 pnpm install
 docker-compose up -d        # Redis Stack with Bloom filter support
 pnpm demo:single            # single notification flow
