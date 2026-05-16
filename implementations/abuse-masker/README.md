@@ -1088,33 +1088,7 @@ bun client
 
 ### Demo Session
 
-**Alice's terminal:**
-```
-══════════════════════════════════════════════
-  Real-time Abuse Masker Chat
-══════════════════════════════════════════════
-
-Username: Alice
-● Connected as Alice
-──────────────────────────────────────────────
-
-› Hey Bob!
-[1:30 AM] You    Hey Bob!
-[1:30 AM] Bob    Hi Alice, how are you?
-› I'm good, this lag is bullshit though
-[1:31 AM] You    I'm good, this lag is ******** though
-[1:31 AM] Bob    lol yeah mondays are ****
-```
-
-**Bob's terminal:**
-```
-[1:30 AM] Alice  Hey Bob!
-› Hi Alice, how are you?
-[1:30 AM] You    Hi Alice, how are you?
-[1:31 AM] Alice  I'm good, this lag is ******** though
-› lol yeah mondays are shit
-[1:31 AM] You    lol yeah mondays are ****
-```
+![Demo](./demo.png)
 
 Both see the same masked output. The original text never reaches anyone unmasked.
 
