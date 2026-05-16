@@ -1,0 +1,21 @@
+{
+  "name": "abuse-masker",
+  "version": "1.0.0",
+  "description": "Real-time abuse masker using Trie data structure for O(n) masking in Socket.IO chat",
+  "type": "module",
+  "scripts": {
+    "type-check": "tsc --noEmit",
+    "pull-abuse-words": "bun src/pull-abuse-words.ts",
+    "server": "bun src/server.ts",
+    "client": "bun src/client.ts"
+  },
+  "keywords": ["abuse-masker", "trie", "socket.io", "websocket", "real-time", "chat"],
+  "dependencies": {
+    "socket.io": "^4.8.0",
+    "socket.io-client": "^4.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
