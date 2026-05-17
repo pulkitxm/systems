@@ -1,0 +1,29 @@
+{
+  "name": "tinder-feed",
+  "version": "1.0.0",
+  "description": "Tinder Feed System Design Implementation - Location-based matching with geospatial queries and Bloom filters",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init-db.ts",
+    "seed": "tsx src/scripts/seed-data.ts",
+    "reset": "tsx src/scripts/reset-db.ts",
+    "demo:location": "tsx src/demos/demo-location.ts",
+    "demo:feed": "tsx src/demos/demo-feed.ts",
+    "demo:swipe": "tsx src/demos/demo-swipe.ts",
+    "demo:match": "tsx src/demos/demo-match.ts",
+    "demo:bloom": "tsx src/demos/demo-bloom.ts",
+    "demo:all": "tsx src/demos/demo-all.ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "bullmq": "^5.34.8",
+    "ioredis": "^5.4.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

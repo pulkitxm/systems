@@ -38,6 +38,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
   - [End-to-End Implementations](#end-to-end-implementations)
     - [`implementations/abuse-masker/`](#implementationsabuse-masker)
     - [`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)
+    - [`implementations/tinder-feed/`](#implementationstinder-feed)
 - [Common Conventions](#common-conventions)
 - [Troubleshooting](#troubleshooting)
 - [Further Reading](#further-reading)
@@ -67,7 +68,8 @@ systems/
 ├── implementations/
 │   ├── abuse-masker/                 Real-time chat abuse masking with Trie O(n)
 │   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
-│   └── notification-service/         Priority queues, bulk iteration, Bloom dedup
+│   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
+│   └── tinder-feed/                  Geospatial queries, Bloom filters, match detection
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -494,6 +496,32 @@ node src/init-db.js
 node src/seed.js
 node src/server.js
 # then: curl http://localhost:3000/products
+```
+
+---
+
+#### [`implementations/tinder-feed/`](./implementations/tinder-feed)
+
+Location-based feed system demonstrating geospatial queries, Bloom filter deduplication, and match detection. Implements the core mechanics of a Tinder-like swipe-based matching application.
+
+**What you'll learn**
+- **Redis geospatial commands**: GEOADD, GEORADIUS, GEODIST for proximity queries.
+- **Why data size isn't the problem**: 600MB for 50M users is trivial; query load (1.67M writes/sec) is the real challenge.
+- **Bloom filters for "definitely not seen"**: Zero false negatives guarantee previously-swiped profiles never reappear.
+- **Feed database design trade-offs**: Store candidate ID (extra network call) vs full profile (stale data risk).
+- **Why NOT store as a list**: Document size limits, serialization costs, unbounded growth.
+- **Async feed generation**: Queue-based pattern for non-blocking user experience.
+- **Match detection**: Simple bidirectional interest check in feed database.
+
+**Quick start**
+
+```bash
+cd implementations/tinder-feed
+pnpm install
+docker-compose up -d
+pnpm init
+pnpm seed
+pnpm demo:all
 ```
 
 ---
