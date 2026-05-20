@@ -1,0 +1,30 @@
+{
+  "name": "pastebin",
+  "version": "1.0.0",
+  "description": "Pastebin / GitHub Gist system design - S3 blobs, derived paths, SQLite metadata, expiration cleanup",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "demo:capacity": "tsx src/demos/demo-capacity.ts",
+    "demo:storage": "tsx src/demos/demo-storage.ts",
+    "demo:paste": "tsx src/demos/demo-paste.ts",
+    "demo:cleanup": "tsx src/demos/demo-cleanup.ts",
+    "demo:all": "tsx src/demos/demo-all.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "uuid": "^11.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3"]
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -71,7 +71,8 @@ systems/
 │   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
 │   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
 │   ├── twitter-trends/               News clustering, entity trending, trends page pipeline
-│   └── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
+│   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
+│   └── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -569,6 +570,27 @@ URL shortener with pseudo-random short codes: compares hash vs integer vs custom
 cd implementations/url-shortener
 pnpm install
 docker compose up -d
+pnpm init
+pnpm demo:all
+```
+
+---
+
+#### [`implementations/pastebin/`](./implementations/pastebin)
+
+Pastebin / GitHub Gist: store text up to 10MB on blob storage (simulated S3), metadata in SQLite, derived S3 paths never stored in DB, expiration with batch cleanup.
+
+**What you'll learn**
+- **Don't store derivables**: S3 path = `gist-paste/{owner_id}/{uid}` computed at runtime
+- **Capacity math**: 100 TB/month blobs → S3; 1.6 GB/month meta → relational DB
+- **Cost-effective design**: skip caching 10MB files on infrequent reads (1:50 ratio)
+- **Expiration**: 404 on read if expired; cleanup job batch-deletes MetaDB + blobs
+
+**Quick start**
+
+```bash
+cd implementations/pastebin
+pnpm install
 pnpm init
 pnpm demo:all
 ```
