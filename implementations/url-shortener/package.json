@@ -1,0 +1,25 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "description": "URL shortener system design - base-62 encoding, ticket server ID generation, KV storage",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "demo:encoding": "tsx src/demos/demo-encoding.ts",
+    "demo:id-gen": "tsx src/demos/demo-id-gen.ts",
+    "demo:storage": "tsx src/demos/demo-storage.ts",
+    "demo:all": "tsx src/demos/demo-all.ts"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

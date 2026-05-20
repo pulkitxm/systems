@@ -1,0 +1,14 @@
+services:
+  redis:
+    image: redis/redis-stack:latest
+    container_name: url-shortener-redis
+    ports:
+      - "6381:6379"
+      - "8003:8001"
+    environment:
+      - REDIS_ARGS=--appendonly yes
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

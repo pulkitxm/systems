@@ -70,7 +70,8 @@ systems/
 │   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
 │   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
 │   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
-│   └── twitter-trends/               News clustering, entity trending, trends page pipeline
+│   ├── twitter-trends/               News clustering, entity trending, trends page pipeline
+│   └── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -546,6 +547,29 @@ pnpm install
 docker compose up -d
 pnpm init
 pnpm seed
+pnpm demo:all
+```
+
+---
+
+#### [`implementations/url-shortener/`](./implementations/url-shortener)
+
+URL shortener with pseudo-random short codes: compares hash vs integer vs custom base-62 encoding, shuffled 6-bit character map, range-partitioned ticket server for unique non-sequential IDs, and KV storage sharded by `short_code`.
+
+**What you'll learn**
+- **Why SHA-256 fails**: 16-char codes, deterministic (no per-user analytics)
+- **Why raw integer IDs fail**: predictable scraping (`/1729` → `/1730`)
+- **Custom encoding**: 62 chars = 6 bits; pad binary ID, map through secret shuffled alphabet
+- **Ticket server**: partition ID ranges, pick range at random, atomic increment — pseudo-random without collisions
+- **Sharding for load**: ~12.8 GB/month for 100M URLs is small; shard by `short_code` for QPS
+
+**Quick start**
+
+```bash
+cd implementations/url-shortener
+pnpm install
+docker compose up -d
+pnpm init
 pnpm demo:all
 ```
 
