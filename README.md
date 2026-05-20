@@ -72,7 +72,8 @@ systems/
 │   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
 │   ├── twitter-trends/               News clustering, entity trending, trends page pipeline
 │   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
-│   └── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
+│   ├── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
+│   └── recommendation-engine/        Content + collaborative filtering, cosine similarity, graph queries
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -593,6 +594,28 @@ cd implementations/pastebin
 pnpm install
 pnpm init
 pnpm demo:all
+```
+
+---
+
+#### [`implementations/recommendation-engine/`](./implementations/recommendation-engine)
+
+Amazon-style recommendation engine: naive popular items, content filtering (TF-IDF + K-means exploitation), collaborative filtering (user cohorts + graph queries for exploration), and blended feeds.
+
+**What you'll learn**
+- **Why naive fails**: same top-10 for everyone, recommends already-purchased items
+- **Content filtering**: cluster products by features; cosine similarity for "more like this"
+- **Collaborative filtering**: cluster users; graph query for items similar users bought
+- **Blended feed**: mix exploitation (60%) + exploration (40%)
+
+**Quick start**
+
+```bash
+cd implementations/recommendation-engine
+pnpm install
+pnpm run init
+pnpm run seed
+pnpm run demo:all
 ```
 
 ---

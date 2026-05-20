@@ -1,0 +1,33 @@
+{
+  "name": "recommendation-engine",
+  "version": "1.0.0",
+  "description": "Recommendation engine - naive, content filtering, collaborative filtering with graph queries",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "demo:naive": "tsx src/demos/demo-naive.ts",
+    "demo:similarity": "tsx src/demos/demo-similarity.ts",
+    "demo:content": "tsx src/demos/demo-content.ts",
+    "demo:collab": "tsx src/demos/demo-collab.ts",
+    "demo:all": "tsx src/demos/demo-all.ts"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3"]
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "ml-kmeans": "^6.0.0",
+    "natural": "^8.0.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/natural": "^5.1.5",
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
