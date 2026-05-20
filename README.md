@@ -12,6 +12,7 @@ The goal isn't to build a library. It's to **internalize how things actually wor
 
 - [Who is this for](#who-is-this-for)
 - [Repository Layout](#repository-layout)
+- [All Modules](#all-modules)
 - [Prerequisites](#prerequisites)
 - [Suggested Learning Path](#suggested-learning-path)
 - [Module Index](#module-index)
@@ -39,6 +40,13 @@ The goal isn't to build a library. It's to **internalize how things actually wor
     - [`implementations/abuse-masker/`](#implementationsabuse-masker)
     - [`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)
     - [`implementations/tinder-feed/`](#implementationstinder-feed)
+    - [`implementations/twitter-trends/`](#implementationstwitter-trends)
+    - [`implementations/url-shortener/`](#implementationsurl-shortener)
+    - [`implementations/pastebin/`](#implementationspastebin)
+    - [`implementations/recommendation-engine/`](#implementationsrecommendation-engine)
+    - [`implementations/web-crawler/`](#implementationsweb-crawler)
+    - [`implementations/fraud-detection/`](#implementationsfraud-detection)
+    - [`implementations/notification-service/`](#implementationsnotification-service)
 - [Common Conventions](#common-conventions)
 - [Troubleshooting](#troubleshooting)
 - [Further Reading](#further-reading)
@@ -65,17 +73,17 @@ systems/
 ├── cron-jobs/                        BullMQ repeatable jobs on Redis
 ├── custom-protocol/                  Redis-RESP-like TCP protocol from scratch
 ├── db-replica/                       Postgres streaming replication + failover
-├── implementations/
-│   ├── abuse-masker/                 Real-time chat abuse masking with Trie O(n)
-│   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
-│   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
-│   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
-│   ├── twitter-trends/               News clustering, entity trending, trends page pipeline
-│   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
+├── implementations/                  Arpit Bhayani–style end-to-end system designs
+│   ├── abuse-masker/                 Real-time chat abuse masking (Trie, Socket.IO)
+│   ├── e-commerce-product-listing/   API + master/replica read routing
+│   ├── fraud-detection/              Random Forest, Spark ETL, txn API, <200ms SLA
+│   ├── notification-service/       Priority queues, bulk iteration, Bloom dedup
 │   ├── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
-│   ├── recommendation-engine/        Content + collaborative filtering, cosine similarity, graph queries
-│   ├── web-crawler/                  BFS spider, S3 batching, inverted index, domain cooldowns
-│   └── fraud-detection/              Real-time Random Forest, Spark ETL, txn API, <200ms SLA
+│   ├── recommendation-engine/        Content + collaborative filtering, graph queries
+│   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
+│   ├── twitter-trends/               Kafka, TF-IDF clustering, entity trending
+│   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
+│   └── web-crawler/                  BFS spider, S3 batching, inverted index
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -84,8 +92,42 @@ systems/
 ├── scaling-db/
 │   ├── read-replicas/                Read-replica routing demo
 │   └── sharding/                     Horizontal sharding by key
+├── scripts/                          Repo utilities (e.g. typecheck-all.sh)
 └── README.md                         ← you are here
 ```
+
+---
+
+## All Modules
+
+Every runnable project in this repo. Each has its own README with architecture, deep dives, and demos.
+
+| Folder | Category | One-line summary |
+|--------|----------|------------------|
+| [`bloom-filters/`](./bloom-filters) | Data structures | Probabilistic set membership, tunable false-positive rate |
+| [`consistent-hashing/`](./consistent-hashing) | Data structures | Ring-based routing with virtual nodes |
+| [`relationa_db_transactions/`](./relationa_db_transactions) | Databases | Postgres ACID, isolation levels, MVCC, WAL (SQL scripts) |
+| [`db-replica/`](./db-replica) | Databases | Streaming replication + manual failover |
+| [`scaling-db/read-replicas/`](./scaling-db/read-replicas) | Databases | Application-layer read/write routing |
+| [`scaling-db/sharding/`](./scaling-db/sharding) | Databases | Horizontal sharding by key |
+| [`kafka/`](./kafka) | Messaging | Producer, consumer groups, partitions |
+| [`cron-jobs/`](./cron-jobs) | Scheduling | BullMQ repeatable jobs on Redis |
+| [`rate-limiter/`](./rate-limiter) | Traffic control | Four algorithms, atomic Lua on Redis |
+| [`custom-protocol/`](./custom-protocol) | Networking | TCP server with Redis-RESP-like framing |
+| [`leader-election/`](./leader-election) | Coordination | Bully algorithm simulation |
+| [`mcp-server/`](./mcp-server) | AI / agents | MCP tools auto-generated from OpenAPI |
+| [`implementations/abuse-masker/`](./implementations/abuse-masker) | System design | Live chat abuse masking with Trie |
+| [`implementations/e-commerce-product-listing/`](./implementations/e-commerce-product-listing) | System design | Product catalog with read replica routing |
+| [`implementations/fraud-detection/`](./implementations/fraud-detection) | System design | Real-time fraud check, Random Forest, Spark pipeline |
+| [`implementations/notification-service/`](./implementations/notification-service) | System design | Priority queues, bulk send, Bloom dedup |
+| [`implementations/pastebin/`](./implementations/pastebin) | System design | Blob storage + metadata, derived S3 paths |
+| [`implementations/recommendation-engine/`](./implementations/recommendation-engine) | System design | Content + collaborative filtering, blended feed |
+| [`implementations/tinder-feed/`](./implementations/tinder-feed) | System design | Geospatial feed, Bloom “already swiped”, matches |
+| [`implementations/twitter-trends/`](./implementations/twitter-trends) | System design | Trends page: clustering + entity scoring |
+| [`implementations/url-shortener/`](./implementations/url-shortener) | System design | Ticket server IDs, base-62, sharded KV |
+| [`implementations/web-crawler/`](./implementations/web-crawler) | System design | BFS crawl, inverted index, S3 batching |
+
+**Utilities:** [`scripts/typecheck-all.sh`](./scripts/typecheck-all.sh) — run `tsc --noEmit` across TypeScript modules from the repo root.
 
 ---
 
@@ -120,6 +162,7 @@ If you're new to distributed systems, here's a path from smallest-scope to large
 9. **[`cron-jobs/`](#cron-jobs)** - Durable background work. Closes the loop on queues + workers + retries.
 10. **[`scaling-db/sharding/`](#scaling-dbsharding)** - Partitioning data when a single node isn't enough.
 11. **[`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)** - Tie it together in a tiny app with read/write splitting.
+12. **End-to-end designs** (any order) — [`notification-service`](#implementationsnotification-service), [`url-shortener`](#implementationsurl-shortener), [`pastebin`](#implementationspastebin), [`twitter-trends`](#implementationstwitter-trends), [`tinder-feed`](#implementationstinder-feed), [`recommendation-engine`](#implementationsrecommendation-engine), [`web-crawler`](#implementationsweb-crawler), [`fraud-detection`](#implementationsfraud-detection), [`abuse-masker`](#implementationsabuse-masker).
 
 Skip around freely - nothing is hard-gated on anything else. This is just one sensible order.
 
