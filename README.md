@@ -73,7 +73,8 @@ systems/
 │   ├── twitter-trends/               News clustering, entity trending, trends page pipeline
 │   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
 │   ├── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
-│   └── recommendation-engine/        Content + collaborative filtering, cosine similarity, graph queries
+│   ├── recommendation-engine/        Content + collaborative filtering, cosine similarity, graph queries
+│   └── web-crawler/                  BFS spider, S3 batching, inverted index, domain cooldowns
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -616,6 +617,28 @@ pnpm install
 pnpm run init
 pnpm run seed
 pnpm run demo:all
+```
+
+---
+
+#### [`implementations/web-crawler/`](./implementations/web-crawler)
+
+Internet-scale web crawler: BFS spider from seed URLs, time-partitioned local staging → zip batches on S3, Spark-style HTML tokenization, inverted index (~320 TB estimate), per-domain crawl cooldowns.
+
+**What you'll learn**
+- **Work backwards:** inverted index → extraction pipeline → S3 batching → crawler
+- **Capacity math:** 1B pages × 1M words → ~320 TB — requires distributed KV (DynamoDB)
+- **Batching:** never one S3 PUT per page; daemon zips 5-minute partitions
+- **Coordination:** URLs DB with domain partition + last-5 crawls + cooldown
+
+**Quick start**
+
+```bash
+cd implementations/web-crawler
+pnpm install
+pnpm init
+pnpm seed
+pnpm demo:all
 ```
 
 ---
