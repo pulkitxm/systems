@@ -74,7 +74,8 @@ systems/
 │   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
 │   ├── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
 │   ├── recommendation-engine/        Content + collaborative filtering, cosine similarity, graph queries
-│   └── web-crawler/                  BFS spider, S3 batching, inverted index, domain cooldowns
+│   ├── web-crawler/                  BFS spider, S3 batching, inverted index, domain cooldowns
+│   └── fraud-detection/              Real-time Random Forest, Spark ETL, txn API, <200ms SLA
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -635,6 +636,28 @@ Internet-scale web crawler: BFS spider from seed URLs, time-partitioned local st
 
 ```bash
 cd implementations/web-crawler
+pnpm install
+pnpm init
+pnpm seed
+pnpm demo:all
+```
+
+---
+
+#### [`implementations/fraud-detection/`](./implementations/fraud-detection)
+
+Real-time bank fraud detection: transaction API with status lifecycle, synchronous Random Forest classifier (<200ms SLA), Spark-style ETL from transaction + customer-support DBs to S3, MLlib-style training pipeline.
+
+**What you'll learn**
+- **Sync fraud check:** Bank API blocks until fraud service returns — not async
+- **Random Forest:** Multiple decision trees (different features) → majority vote
+- **Training labels:** Customer support tickets mark fraud after user calls
+- **Big data role:** Spark joins huge DBs → S3; MLlib trains at scale; model loaded on service boot
+
+**Quick start**
+
+```bash
+cd implementations/fraud-detection
 pnpm install
 pnpm init
 pnpm seed

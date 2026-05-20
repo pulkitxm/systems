@@ -1,0 +1,30 @@
+{
+  "name": "fraud-detection",
+  "version": "1.0.0",
+  "description": "Real-time fraud detection - Random Forest, Spark-style ETL, transaction API, <200ms SLA",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "demo:tree": "tsx src/demos/demo-tree.ts",
+    "demo:forest": "tsx src/demos/demo-forest.ts",
+    "demo:pipeline": "tsx src/demos/demo-pipeline.ts",
+    "demo:realtime": "tsx src/demos/demo-realtime.ts",
+    "demo:all": "tsx src/demos/demo-all.ts"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.7.0",
+    "uuid": "^11.1.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3"]
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
