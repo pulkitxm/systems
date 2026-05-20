@@ -1,0 +1,30 @@
+{
+  "name": "twitter-trends",
+  "version": "1.0.0",
+  "description": "Twitter Trends page system design - news clustering, entity trending, and trends serving",
+  "type": "module",
+  "scripts": {
+    "init": "tsx src/scripts/init.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "type-check": "tsc --noEmit",
+    "demo:ingestion": "tsx src/demos/demo-ingestion.ts",
+    "demo:clustering": "tsx src/demos/demo-clustering.ts",
+    "demo:trending": "tsx src/demos/demo-trending.ts",
+    "demo:all": "tsx src/demos/demo-all.ts"
+  },
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.11.0",
+    "ioredis": "^5.4.2",
+    "kafkajs": "^2.2.4",
+    "ml-kmeans": "^6.0.0",
+    "natural": "^8.0.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/natural": "^5.1.5",
+    "@types/node": "^22.10.5",
+    "@types/uuid": "^10.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

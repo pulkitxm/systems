@@ -69,7 +69,8 @@ systems/
 │   ├── abuse-masker/                 Real-time chat abuse masking with Trie O(n)
 │   ├── e-commerce-product-listing/   End-to-end: API + master/replica routing
 │   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
-│   └── tinder-feed/                  Geospatial queries, Bloom filters, match detection
+│   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
+│   └── twitter-trends/               News clustering, entity trending, trends page pipeline
 ├── kafka/                            Topics, partitions, consumer groups
 ├── leader-election/                  Bully algorithm simulation
 ├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
@@ -519,6 +520,30 @@ Location-based feed system demonstrating geospatial queries, Bloom filter dedupl
 cd implementations/tinder-feed
 pnpm install
 docker-compose up -d
+pnpm init
+pnpm seed
+pnpm demo:all
+```
+
+---
+
+#### [`implementations/twitter-trends/`](./implementations/twitter-trends)
+
+Twitter Trends page pipeline: Kafka ingestion, news URL filtering/enrichment, TF-IDF + K-means clustering in Elasticsearch, entity extraction and scoring, and a precomputed trends serving layer.
+
+**What you'll learn**
+- **Why a simple UI needs many services**: Ingestion, clustering, trending, and read-optimized serving are separate concerns.
+- **Kafka as the tweet firehose**: Durability and multiple consumers on one stream.
+- **News clustering**: TF-IDF feature vectors, K-means grouping, Elasticsearch for NL queries.
+- **Entity trending (not hashtags)**: NER-style extraction, time-windowed aggregation, alias merging.
+- **Read/write split**: Heavy batch job writes `trends:current`; API reads precomputed data.
+
+**Quick start**
+
+```bash
+cd implementations/twitter-trends
+pnpm install
+docker compose up -d
 pnpm init
 pnpm seed
 pnpm demo:all
