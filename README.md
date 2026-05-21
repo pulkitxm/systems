@@ -17,25 +17,25 @@ The goal isn't to build a library. It's to **internalize how things actually wor
 - [Suggested Learning Path](#suggested-learning-path)
 - [Module Index](#module-index)
   - [Data Structures](#data-structures)
-    - [`bloom-filters/`](#bloom-filters)
-    - [`consistent-hashing/`](#consistent-hashing)
+    - [`data-structures/bloom-filters/`](#data-structuresbloom-filters)
+    - [`data-structures/consistent-hashing/`](#data-structuresconsistent-hashing)
   - [Databases](#databases)
-    - [`relationa_db_transactions/`](#relationa_db_transactions)
-    - [`db-replica/`](#db-replica)
-    - [`scaling-db/read-replicas/`](#scaling-dbread-replicas)
-    - [`scaling-db/sharding/`](#scaling-dbsharding)
+    - [`databases/relationa_db_transactions/`](#databasesrelationa_db_transactions)
+    - [`databases/db-replica/`](#databasesdb-replica)
+    - [`databases/scaling-db/read-replicas/`](#databasesscaling-dbread-replicas)
+    - [`databases/scaling-db/sharding/`](#databasesscaling-dbsharding)
   - [Messaging & Scheduling](#messaging--scheduling)
-    - [`kafka/`](#kafka)
-    - [`cron-jobs/`](#cron-jobs)
+    - [`messaging/kafka/`](#messagingkafka)
+    - [`messaging/cron-jobs/`](#messagingcron-jobs)
     - [`implementations/notification-service/`](#implementationsnotification-service)
   - [Traffic Control](#traffic-control)
-    - [`rate-limiter/`](#rate-limiter)
+    - [`traffic-control/rate-limiter/`](#traffic-controlrate-limiter)
   - [Networking](#networking)
-    - [`custom-protocol/`](#custom-protocol)
+    - [`networking/custom-protocol/`](#networkingcustom-protocol)
   - [Coordination](#coordination)
-    - [`leader-election/`](#leader-election)
+    - [`coordination/leader-election/`](#coordinationleader-election)
   - [AI & Agents](#ai--agents)
-    - [`mcp-server/`](#mcp-server)
+    - [`ai-agents/mcp-server/`](#ai-agentsmcp-server)
   - [End-to-End Implementations](#end-to-end-implementations)
     - [`implementations/abuse-masker/`](#implementationsabuse-masker)
     - [`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)
@@ -68,30 +68,37 @@ Each module has a **README that goes deeper than this one** - with protocol spec
 
 ```
 systems/
-├── bloom-filters/                    Probabilistic set membership
-├── consistent-hashing/               Key → node mapping with minimal churn
-├── cron-jobs/                        BullMQ repeatable jobs on Redis
-├── custom-protocol/                  Redis-RESP-like TCP protocol from scratch
-├── db-replica/                       Postgres streaming replication + failover
+├── ai-agents/
+│   └── mcp-server/                   MCP server that auto-generates tools from OpenAPI
+├── coordination/
+│   └── leader-election/              Bully algorithm simulation
+├── data-structures/
+│   ├── bloom-filters/                Probabilistic set membership
+│   └── consistent-hashing/           Key → node mapping with minimal churn
+├── databases/
+│   ├── db-replica/                   Postgres streaming replication + failover
+│   ├── relationa_db_transactions/    12 SQL scripts: ACID, MVCC, isolation, WAL
+│   └── scaling-db/
+│       ├── read-replicas/            Read-replica routing demo
+│       └── sharding/                 Horizontal sharding by key
 ├── implementations/                  Arpit Bhayani–style end-to-end system designs
 │   ├── abuse-masker/                 Real-time chat abuse masking (Trie, Socket.IO)
 │   ├── e-commerce-product-listing/   API + master/replica read routing
 │   ├── fraud-detection/              Random Forest, Spark ETL, txn API, <200ms SLA
-│   ├── notification-service/       Priority queues, bulk iteration, Bloom dedup
+│   ├── notification-service/         Priority queues, bulk iteration, Bloom dedup
 │   ├── pastebin/                     S3 blobs, derived paths, SQLite metadata, expiration
 │   ├── recommendation-engine/        Content + collaborative filtering, graph queries
 │   ├── tinder-feed/                  Geospatial queries, Bloom filters, match detection
 │   ├── twitter-trends/               Kafka, TF-IDF clustering, entity trending
 │   ├── url-shortener/                Base-62 encoding, ticket server IDs, KV storage
 │   └── web-crawler/                  BFS spider, S3 batching, inverted index
-├── kafka/                            Topics, partitions, consumer groups
-├── leader-election/                  Bully algorithm simulation
-├── mcp-server/                       MCP server that auto-generates tools from OpenAPI
-├── rate-limiter/                     4 algorithms, all atomic Lua on Redis
-├── relationa_db_transactions/        12 SQL scripts: ACID, MVCC, isolation, WAL
-├── scaling-db/
-│   ├── read-replicas/                Read-replica routing demo
-│   └── sharding/                     Horizontal sharding by key
+├── messaging/
+│   ├── cron-jobs/                    BullMQ repeatable jobs on Redis
+│   └── kafka/                        Topics, partitions, consumer groups
+├── networking/
+│   └── custom-protocol/              Redis-RESP-like TCP protocol from scratch
+├── traffic-control/
+│   └── rate-limiter/                 4 algorithms, all atomic Lua on Redis
 ├── scripts/                          Repo utilities (e.g. typecheck-all.sh)
 └── README.md                         ← you are here
 ```
@@ -104,18 +111,18 @@ Every runnable project in this repo. Each has its own README with architecture, 
 
 | Folder | Category | One-line summary |
 |--------|----------|------------------|
-| [`bloom-filters/`](./bloom-filters) | Data structures | Probabilistic set membership, tunable false-positive rate |
-| [`consistent-hashing/`](./consistent-hashing) | Data structures | Ring-based routing with virtual nodes |
-| [`relationa_db_transactions/`](./relationa_db_transactions) | Databases | Postgres ACID, isolation levels, MVCC, WAL (SQL scripts) |
-| [`db-replica/`](./db-replica) | Databases | Streaming replication + manual failover |
-| [`scaling-db/read-replicas/`](./scaling-db/read-replicas) | Databases | Application-layer read/write routing |
-| [`scaling-db/sharding/`](./scaling-db/sharding) | Databases | Horizontal sharding by key |
-| [`kafka/`](./kafka) | Messaging | Producer, consumer groups, partitions |
-| [`cron-jobs/`](./cron-jobs) | Scheduling | BullMQ repeatable jobs on Redis |
-| [`rate-limiter/`](./rate-limiter) | Traffic control | Four algorithms, atomic Lua on Redis |
-| [`custom-protocol/`](./custom-protocol) | Networking | TCP server with Redis-RESP-like framing |
-| [`leader-election/`](./leader-election) | Coordination | Bully algorithm simulation |
-| [`mcp-server/`](./mcp-server) | AI / agents | MCP tools auto-generated from OpenAPI |
+| [`data-structures/bloom-filters/`](./data-structures/bloom-filters) | Data structures | Probabilistic set membership, tunable false-positive rate |
+| [`data-structures/consistent-hashing/`](./data-structures/consistent-hashing) | Data structures | Ring-based routing with virtual nodes |
+| [`databases/relationa_db_transactions/`](./databases/relationa_db_transactions) | Databases | Postgres ACID, isolation levels, MVCC, WAL (SQL scripts) |
+| [`databases/db-replica/`](./databases/db-replica) | Databases | Streaming replication + manual failover |
+| [`databases/scaling-db/read-replicas/`](./databases/scaling-db/read-replicas) | Databases | Application-layer read/write routing |
+| [`databases/scaling-db/sharding/`](./databases/scaling-db/sharding) | Databases | Horizontal sharding by key |
+| [`messaging/kafka/`](./messaging/kafka) | Messaging | Producer, consumer groups, partitions |
+| [`messaging/cron-jobs/`](./messaging/cron-jobs) | Scheduling | BullMQ repeatable jobs on Redis |
+| [`traffic-control/rate-limiter/`](./traffic-control/rate-limiter) | Traffic control | Four algorithms, atomic Lua on Redis |
+| [`networking/custom-protocol/`](./networking/custom-protocol) | Networking | TCP server with Redis-RESP-like framing |
+| [`coordination/leader-election/`](./coordination/leader-election) | Coordination | Bully algorithm simulation |
+| [`ai-agents/mcp-server/`](./ai-agents/mcp-server) | AI / agents | MCP tools auto-generated from OpenAPI |
 | [`implementations/abuse-masker/`](./implementations/abuse-masker) | System design | Live chat abuse masking with Trie |
 | [`implementations/e-commerce-product-listing/`](./implementations/e-commerce-product-listing) | System design | Product catalog with read replica routing |
 | [`implementations/fraud-detection/`](./implementations/fraud-detection) | System design | Real-time fraud check, Random Forest, Spark pipeline |
@@ -139,9 +146,9 @@ You won't need all of these for every module - each module's README lists exactl
 |------|---------|-------|
 | **Node.js** 18+ | everything | Most demos are TypeScript or plain JS |
 | **pnpm** (preferred) or **npm** | everything | Install with `npm i -g pnpm` |
-| **Docker** + **Docker Compose** | kafka, cron-jobs, rate-limiter, db-replica, scaling-db, relationa_db_transactions, implementations/* | Used to spin up Postgres, Redis, Kafka, etc. locally |
+| **Docker** + **Docker Compose** | messaging/kafka, messaging/cron-jobs, traffic-control/rate-limiter, databases/db-replica, databases/scaling-db, databases/relationa_db_transactions, implementations/* | Used to spin up Postgres, Redis, Kafka, etc. locally |
 | **psql** *(optional)* | db modules | Handy for interactive exploration; not required since demos use the `pg` driver |
-| **telnet** or **nc** *(optional)* | custom-protocol | Manual protocol testing |
+| **telnet** or **nc** *(optional)* | networking/custom-protocol | Manual protocol testing |
 
 Everything runs locally. There are no cloud dependencies.
 
@@ -151,16 +158,16 @@ Everything runs locally. There are no cloud dependencies.
 
 If you're new to distributed systems, here's a path from smallest-scope to largest-scope. Each one builds intuition you'll reuse in the next.
 
-1. **[`custom-protocol/`](#custom-protocol)** - Start here. Understand how two processes talk over a socket. Everything else in this repo rides on top of ideas from here.
-2. **[`bloom-filters/`](#bloom-filters)** - A self-contained data structure that shows up everywhere (caches, DB index probes, CDN).
-3. **[`consistent-hashing/`](#consistent-hashing)** - The routing primitive behind shards, DHTs, and cache clusters.
-4. **[`relationa_db_transactions/`](#relationa_db_transactions)** - Before you distribute a database, understand what a single-node transactional database guarantees.
-5. **[`rate-limiter/`](#rate-limiter)** - Your first taste of "atomicity matters under concurrency" on Redis.
-6. **[`leader-election/`](#leader-election)** - How systems agree on "one of us is in charge" without external help.
-7. **[`db-replica/`](#db-replica)** - Real streaming replication between real Postgres containers. Failover included.
-8. **[`kafka/`](#kafka)** - Move from request/response to event streams; see why "write once, read many" changes system design.
-9. **[`cron-jobs/`](#cron-jobs)** - Durable background work. Closes the loop on queues + workers + retries.
-10. **[`scaling-db/sharding/`](#scaling-dbsharding)** - Partitioning data when a single node isn't enough.
+1. **[`networking/custom-protocol/`](#networkingcustom-protocol)** - Start here. Understand how two processes talk over a socket. Everything else in this repo rides on top of ideas from here.
+2. **[`data-structures/bloom-filters/`](#data-structuresbloom-filters)** - A self-contained data structure that shows up everywhere (caches, DB index probes, CDN).
+3. **[`data-structures/consistent-hashing/`](#data-structuresconsistent-hashing)** - The routing primitive behind shards, DHTs, and cache clusters.
+4. **[`databases/relationa_db_transactions/`](#databasesrelationa_db_transactions)** - Before you distribute a database, understand what a single-node transactional database guarantees.
+5. **[`traffic-control/rate-limiter/`](#traffic-controlrate-limiter)** - Your first taste of "atomicity matters under concurrency" on Redis.
+6. **[`coordination/leader-election/`](#coordinationleader-election)** - How systems agree on "one of us is in charge" without external help.
+7. **[`databases/db-replica/`](#databasesdb-replica)** - Real streaming replication between real Postgres containers. Failover included.
+8. **[`messaging/kafka/`](#messagingkafka)** - Move from request/response to event streams; see why "write once, read many" changes system design.
+9. **[`messaging/cron-jobs/`](#messagingcron-jobs)** - Durable background work. Closes the loop on queues + workers + retries.
+10. **[`databases/scaling-db/sharding/`](#databasesscaling-dbsharding)** - Partitioning data when a single node isn't enough.
 11. **[`implementations/e-commerce-product-listing/`](#implementationse-commerce-product-listing)** - Tie it together in a tiny app with read/write splitting.
 12. **End-to-end designs** (any order) — [`notification-service`](#implementationsnotification-service), [`url-shortener`](#implementationsurl-shortener), [`pastebin`](#implementationspastebin), [`twitter-trends`](#implementationstwitter-trends), [`tinder-feed`](#implementationstinder-feed), [`recommendation-engine`](#implementationsrecommendation-engine), [`web-crawler`](#implementationsweb-crawler), [`fraud-detection`](#implementationsfraud-detection), [`abuse-masker`](#implementationsabuse-masker).
 
@@ -174,7 +181,7 @@ Each module below links to its own README, which is where the real content lives
 
 ### Data Structures
 
-#### [`bloom-filters/`](./bloom-filters)
+#### [`data-structures/bloom-filters/`](./data-structures/bloom-filters)
 
 A probabilistic set membership structure that answers "is X in the set?" with two states: **definitely not** or **might be**. Implemented in TypeScript from scratch, plus a demo of the RedisBloom module.
 
@@ -186,7 +193,7 @@ A probabilistic set membership structure that answers "is X in the set?" with tw
 **Quick start**
 
 ```bash
-cd bloom-filters
+cd data-structures/bloom-filters
 pnpm install
 pnpm demo              # basic behavior
 pnpm false-positive    # watch FP rate climb as the filter fills
@@ -195,7 +202,7 @@ pnpm redis             # RedisBloom module version (requires redis-stack)
 
 ---
 
-#### [`consistent-hashing/`](./consistent-hashing)
+#### [`data-structures/consistent-hashing/`](./data-structures/consistent-hashing)
 
 Implementation of the ring-based consistent hashing algorithm, with virtual nodes for even distribution.
 
@@ -208,7 +215,7 @@ Implementation of the ring-based consistent hashing algorithm, with virtual node
 **Quick start**
 
 ```bash
-cd consistent-hashing
+cd data-structures/consistent-hashing
 pnpm install
 pnpm demo            # key ownership + adding/removing nodes
 pnpm scale           # compare simple hash vs consistent hash under scaling
@@ -219,7 +226,7 @@ pnpm virtual-nodes   # distribution with/without virtual nodes
 
 ### Databases
 
-#### [`relationa_db_transactions/`](./relationa_db_transactions)
+#### [`databases/relationa_db_transactions/`](./databases/relationa_db_transactions)
 
 Twelve annotated SQL scripts that walk you through transaction internals in PostgreSQL. No application code - just `psql` and a single Postgres container.
 
@@ -233,7 +240,7 @@ Twelve annotated SQL scripts that walk you through transaction internals in Post
 **Quick start**
 
 ```bash
-cd relationa_db_transactions
+cd databases/relationa_db_transactions
 docker-compose up -d
 docker exec -i transactions_db psql -U admin -d transactions_db < 01_basic_transaction.sql
 ```
@@ -242,7 +249,7 @@ Several scripts are two-terminal exercises (concurrent sessions) - the script he
 
 ---
 
-#### [`db-replica/`](./db-replica)
+#### [`databases/db-replica/`](./databases/db-replica)
 
 Two real Postgres containers, streaming replication over WAL, and a manual-failover script. This is the most detailed module in the repo.
 
@@ -258,7 +265,7 @@ Two real Postgres containers, streaming replication over WAL, and a manual-failo
 **Quick start**
 
 ```bash
-cd db-replica
+cd databases/db-replica
 docker compose up -d
 sleep 10
 pnpm install
@@ -268,7 +275,7 @@ pnpm run failover        # kill primary, promote replica, write to it
 
 ---
 
-#### [`scaling-db/read-replicas/`](./scaling-db/read-replicas)
+#### [`databases/scaling-db/read-replicas/`](./databases/scaling-db/read-replicas)
 
 A simpler take on read-replicas focused on **query routing**: writes to primary, reads distributed across replicas.
 
@@ -279,7 +286,7 @@ A simpler take on read-replicas focused on **query routing**: writes to primary,
 **Quick start**
 
 ```bash
-cd scaling-db/read-replicas
+cd databases/scaling-db/read-replicas
 docker compose up -d
 pnpm install
 pnpm setup
@@ -289,7 +296,7 @@ pnpm demo
 
 ---
 
-#### [`scaling-db/sharding/`](./scaling-db/sharding)
+#### [`databases/scaling-db/sharding/`](./databases/scaling-db/sharding)
 
 Horizontal partitioning across multiple Postgres instances by a shard key, with an application-side shard manager.
 
@@ -302,7 +309,7 @@ Horizontal partitioning across multiple Postgres instances by a shard key, with 
 **Quick start**
 
 ```bash
-cd scaling-db/sharding
+cd databases/scaling-db/sharding
 docker compose up -d
 npm install
 npm run setup
@@ -315,7 +322,7 @@ npm run query   # example single-shard vs cross-shard queries
 
 ### Messaging & Scheduling
 
-#### [`kafka/`](./kafka)
+#### [`messaging/kafka/`](./messaging/kafka)
 
 A blog-publishing system using Kafka: one producer, two independent consumer groups (search indexer + per-user post counter), multiple partitions.
 
@@ -329,7 +336,7 @@ A blog-publishing system using Kafka: one producer, two independent consumer gro
 **Quick start**
 
 ```bash
-cd kafka
+cd messaging/kafka
 docker-compose up -d          # Kafka + Kafka UI on :8080
 pnpm install
 pnpm run search-consumer      # terminal 1
@@ -339,7 +346,7 @@ pnpm run producer             # terminal 3
 
 ---
 
-#### [`cron-jobs/`](./cron-jobs)
+#### [`messaging/cron-jobs/`](./messaging/cron-jobs)
 
 Production-style cron scheduling with BullMQ on Redis. The key insight: **there's no scheduler daemon** - repeatable jobs are just delayed jobs that re-add themselves when executed.
 
@@ -352,7 +359,7 @@ Production-style cron scheduling with BullMQ on Redis. The key insight: **there'
 **Quick start**
 
 ```bash
-cd cron-jobs
+cd messaging/cron-jobs
 docker-compose up -d          # Redis + Redis Commander on :8081
 pnpm install
 pnpm run add-schedule         # register 4 sample schedules
@@ -391,7 +398,7 @@ pnpm demo:all               # complete walkthrough
 
 ### Traffic Control
 
-#### [`rate-limiter/`](./rate-limiter)
+#### [`traffic-control/rate-limiter/`](./traffic-control/rate-limiter)
 
 Four rate-limiting algorithms - Fixed Window, Sliding Window Log, Sliding Window Counter, Leaky Bucket - each implemented as a single atomic Lua script running inside Redis.
 
@@ -410,7 +417,7 @@ Four rate-limiting algorithms - Fixed Window, Sliding Window Log, Sliding Window
 **Quick start**
 
 ```bash
-cd rate-limiter
+cd traffic-control/rate-limiter
 pnpm install
 docker-compose up -d
 pnpm fixed-window
@@ -425,7 +432,7 @@ pnpm all              # same workload, all four algorithms, side by side
 
 ### Networking
 
-#### [`custom-protocol/`](./custom-protocol)
+#### [`networking/custom-protocol/`](./networking/custom-protocol)
 
 A Redis-RESP-style, text-based, line-delimited protocol on top of raw TCP. Implements `SET`, `GET`, `DEL`, `PING`, `QUIT` with simple strings, errors, and bulk strings.
 
@@ -438,7 +445,7 @@ A Redis-RESP-style, text-based, line-delimited protocol on top of raw TCP. Imple
 **Quick start**
 
 ```bash
-cd custom-protocol
+cd networking/custom-protocol
 npm install
 npm run build
 npm run server        # terminal 1
@@ -450,7 +457,7 @@ npm run client        # terminal 2
 
 ### Coordination
 
-#### [`leader-election/`](./leader-election)
+#### [`coordination/leader-election/`](./coordination/leader-election)
 
 The **Bully Algorithm** simulated on a single machine using timers to mimic independent processes. Start with 5 nodes, kill the leader, watch a new one get elected.
 
@@ -463,7 +470,7 @@ The **Bully Algorithm** simulated on a single machine using timers to mimic inde
 **Quick start**
 
 ```bash
-cd leader-election
+cd coordination/leader-election
 node demo.js               # high-level simulation
 node bully-algorithm.js    # fuller implementation with message types + delays
 ```
@@ -472,7 +479,7 @@ node bully-algorithm.js    # fuller implementation with message types + delays
 
 ### AI & Agents
 
-#### [`mcp-server/`](./mcp-server)
+#### [`ai-agents/mcp-server/`](./ai-agents/mcp-server)
 
 A tiny [Model Context Protocol](https://modelcontextprotocol.io) server that wraps a Hono + OpenAPI API and auto-generates one MCP tool per allowed route. Add a route to the REST API, restart, and the new tool shows up in `tools/list` on the next connection. No hand-maintained tool catalogue.
 
@@ -487,7 +494,7 @@ A tiny [Model Context Protocol](https://modelcontextprotocol.io) server that wra
 **Quick start**
 
 ```bash
-cd mcp-server
+cd ai-agents/mcp-server
 pnpm install
 
 pnpm server          # terminal 1: starts the server on :3333
