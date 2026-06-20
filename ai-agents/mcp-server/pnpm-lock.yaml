@@ -10,13 +10,13 @@ importers:
     dependencies:
       '@hono/node-server':
         specifier: ^1.13.2
-        version: 1.19.14(hono@4.12.14)
+        version: 1.19.14(hono@4.12.25)
       '@hono/zod-openapi':
         specifier: ^0.18.3
-        version: 0.18.4(hono@4.12.14)(zod@3.25.76)
+        version: 0.18.4(hono@4.12.25)(zod@3.25.76)
       hono:
-        specifier: ^4.6.14
-        version: 4.12.14
+        specifier: ^4.12.25
+        version: 4.12.25
       zod:
         specifier: ^3.23.8
         version: 3.25.76
@@ -229,8 +229,8 @@ packages:
   get-tsconfig@4.14.0:
     resolution: {integrity: sha512-yTb+8DXzDREzgvYmh6s9vHsSVCHeC0G3PI5bEXNBHtmshPnO+S5O7qgLEOn0I5QvMy6kpZN8K1NKGyilLb93wA==}
 
-  hono@4.12.14:
-    resolution: {integrity: sha512-am5zfg3yu6sqn5yjKBNqhnTX7Cv+m00ox+7jbaKkrLMRJ4rAdldd1xPd/JzbBWspqaQv6RSTrgFN95EsfhC+7w==}
+  hono@4.12.25:
+    resolution: {integrity: sha512-2NFaIyNVgJmBs/ecmtGzlmluTFs5cHEWGTdu0t1HBwYzoGXOL5nUQBRMXsXWla5i4KkG//QMzVP88m1+I3fdAQ==}
     engines: {node: '>=16.9.0'}
 
   openapi3-ts@4.5.0:
@@ -345,20 +345,20 @@ snapshots:
   '@esbuild/win32-x64@0.27.7':
     optional: true
 
-  '@hono/node-server@1.19.14(hono@4.12.14)':
+  '@hono/node-server@1.19.14(hono@4.12.25)':
     dependencies:
-      hono: 4.12.14
+      hono: 4.12.25
 
-  '@hono/zod-openapi@0.18.4(hono@4.12.14)(zod@3.25.76)':
+  '@hono/zod-openapi@0.18.4(hono@4.12.25)(zod@3.25.76)':
     dependencies:
       '@asteasolutions/zod-to-openapi': 7.3.4(zod@3.25.76)
-      '@hono/zod-validator': 0.4.3(hono@4.12.14)(zod@3.25.76)
-      hono: 4.12.14
+      '@hono/zod-validator': 0.4.3(hono@4.12.25)(zod@3.25.76)
+      hono: 4.12.25
       zod: 3.25.76
 
-  '@hono/zod-validator@0.4.3(hono@4.12.14)(zod@3.25.76)':
+  '@hono/zod-validator@0.4.3(hono@4.12.25)(zod@3.25.76)':
     dependencies:
-      hono: 4.12.14
+      hono: 4.12.25
       zod: 3.25.76
 
   '@types/node@22.19.17':
@@ -401,7 +401,7 @@ snapshots:
     dependencies:
       resolve-pkg-maps: 1.0.0
 
-  hono@4.12.14: {}
+  hono@4.12.25: {}
 
   openapi3-ts@4.5.0:
     dependencies:
