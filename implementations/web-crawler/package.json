@@ -15,9 +15,9 @@
     "demo:all": "tsx src/demos/demo-all.ts"
   },
   "dependencies": {
-    "adm-zip": "^0.5.16",
+    "adm-zip": "^0.6.1",
     "better-sqlite3": "^11.7.0",
-    "uuid": "^11.1.0"
+    "uuid": "^14.0.2"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["better-sqlite3"]
